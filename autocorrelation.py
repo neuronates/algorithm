@@ -58,7 +58,8 @@ def seizure(data):
         
         for k in range(1, length-2):
             
-            
+            # the following lines should have a find < 0 instead of > 0, however,
+            # there are 0 values that fit that are found when that is the case...
             timeOne = maxIndices[k] + 1 - numpy.where(numpy.flipud(adata[maxIndices[k-1]:maxIndices[k]]) > 0)[0][0]       #       find(flipud(adata(locs(k-1):locs(k)))<0,1);
             timeTwo = maxIndices[k] - 1 + numpy.where(adata[maxIndices[k]:maxIndices[k+1]] > 0)[0][0]
 
@@ -66,8 +67,8 @@ def seizure(data):
             corrSum[k] = 1/fs*(timeTwo - 1 + (tempSum > tempSum[-1]/2))[0];
         
         
-       
-        corrSum = corrSum[1:-1]
+        # TODO this line will result in a divide by zero error, take a look at the paper
+        corrSum = corrSum[1:-1]/1#corrSum[0];
         corrSum = numpy.abs(numpy.round(corrSum) - corrSum)
         results = score(corrSum) 
         finalScore[i] = numpy.sum(results)
