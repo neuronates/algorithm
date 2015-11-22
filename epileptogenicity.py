@@ -17,7 +17,7 @@ import sys
 # two params: threshold lambda and the positive bias term
 # bias corresponds to magnitude of changes that should not raise an alarm
 # higher lamdba means lower false alarm rate but leads to higher instances of non-detection
-# duration used - 5s
+# duration used - 6s
 
 
 
@@ -31,12 +31,16 @@ def readData(fileName):
 
 def seizure(data):
     
-    # assume all traces lie in columns 
+    # probably want to initialize by computing the ER for x number of windows, estimate a normal distribution
+    # then compute threshold from whatever is statistically significant
+    
+    
     fs = 256                    # sampling frequency
-    duration = 5                # time duration of the window
-    windowSize = fs*duration   #window size in samples                   # 
-    thresh = 0.3
-    bias = 0.1
+    duration = 6                # time duration of the window
+    windowSize = fs*duration    # window size in samples
+    thresh = 0.3                # threshold for detection
+    bias = 0.1                  # positive bias
+    advance = duration * fs     # the number of samples to shift the window forward by
     
     startIndex = 0
     endIndex = windowSize - 1
@@ -60,8 +64,8 @@ def seizure(data):
         
         numpy.append(ER, energyRatio)
         
-        endIndex = endIndex + 1
-        startIndex = startIndex + 1
+        endIndex = endIndex + advance
+        startIndex = startIndex + advance
         
     
     U_n = numpy.array([])
