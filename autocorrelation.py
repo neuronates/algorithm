@@ -168,12 +168,12 @@ def seizure(data):
     fs = 256
     seiz = 0
     # compute autocorrelation of data
-    adata = scipy.ifft(numpy.multiply(scipy.fft(data, axis = 1), scipy.conj(scipy.fft(data, axis = 1))))
+    adata = scipy.ifft(numpy.multiply(scipy.fft(data), scipy.conj(scipy.fft(data))))
     finalScore = numpy.zeros(len(adata))
     
     for i in range(0, len(adata)-1):
         
-        maxIndices = argrelmax(data[:,i])
+        maxIndices = argrelmax(data[0:i])
         length = numpy.shape(maxIndices)[1]
         
         maxIndices = numpy.append([1], maxIndices)   # pads with the first and last indices
