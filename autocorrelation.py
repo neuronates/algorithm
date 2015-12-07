@@ -106,7 +106,7 @@ def argrelextrema(data, comparator,
 def readData(fileName):
     
     # skip the first row assuming it contains column names
-    data = numpy.loadtxt(open(fileName,"rb"),delimiter=",",skiprows=1)
+    data = numpy.loadtxt(open(fileName,"rb"),delimiter=",",skiprows=0)
     
     return data
 
