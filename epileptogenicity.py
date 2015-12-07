@@ -34,7 +34,9 @@ def seizure(data):
     # probably want to initialize by computing the ER for x number of windows, estimate a normal distribution
     # then compute threshold from whatever is statistically significant
     
+    #Take some number of initial windows and set threshold to the minimum statistically significant value above the mean modeling the output as a normal distribution
     
+    #print(numpy.shape(data))
     fs = 256                    # sampling frequency
     duration = 6                # time duration of the window
     windowSize = fs*duration    # window size in samples
@@ -69,16 +71,24 @@ def seizure(data):
         
     
     U_n = numpy.array([])
-    seizureIndex = -1
+    seizureIndex = numpy.array([])
+    seizureStart = numpy.array([])
+    
+    
     
     for i in range(0, len(ER)-1):
         
         numpy.append(U_n, ER[i] - numpy.average(ER[0:i]) - bias)
         
         if(U_n[i] - min(U_n) > thresh):
-            return (i, numpy.argmin(U_n))
+            seizureIndex = numpy.append(seizureIndex, i)
+            seizureStart = numpy.append(seizureStart, numpy.argmin(U_n))
         
-    return (-1, -1)
+    if(len(seizureIndex) == 0 and len(seizureStart) == 0):
+        seizureIndex = numpy.array([-1])
+        seizureStart = numpy.array([-1])
+        
+    return (seizureIndex, seizureStart)
 
 if __name__ == "__main__":
     
