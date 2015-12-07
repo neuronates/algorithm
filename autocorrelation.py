@@ -1,11 +1,105 @@
 from __future__ import print_function
-import scipy.signal
+#import scipy.signal
 #from scipy import *
 #from scipy import signal
 #import scipy.signal
+import scipy
 import numpy
 import sys
 
+def _boolrelextrema(data, comparator,
+                  axis=0, order=1, mode='clip'):
+    """
+    Calculate the relative extrema of `data`.
+
+    Relative extrema are calculated by finding locations where
+    comparator(data[n],data[n+1:n+order+1]) = True.
+
+    Parameters
+    ----------
+    data: ndarray
+    comparator: function
+        function to use to compare two data points.
+        Should take 2 numbers as arguments
+    axis: int, optional
+        axis over which to select from `data`
+    order: int, optional
+        How many points on each side to require
+        a `comparator`(n,n+x) = True.
+    mode: string, optional
+        How the edges of the vector are treated.
+        'wrap' (wrap around) or 'clip' (treat overflow
+        as the same as the last (or first) element).
+        Default 'clip'. See numpy.take
+
+    Returns
+    -------
+    extrema: ndarray
+        Indices of the extrema, as boolean array
+        of same shape as data. True for an extrema,
+        False else.
+
+    See also
+    --------
+    argrelmax,argrelmin
+
+    Examples
+    --------
+    >>> testdata = numpy.array([1,2,3,2,1])
+    >>> argrelextrema(testdata, numpy.greater, axis=0)
+    array([False, False,  True, False, False], dtype=bool)
+    """
+
+    if((int(order) != order) or (order < 1)):
+        raise ValueError('Order must be an int >= 1')
+
+    datalen = data.shape[axis]
+    locs = numpy.arange(0, datalen)
+
+    results = numpy.ones(data.shape, dtype=bool)
+    main = data.take(locs, axis=axis, mode=mode)
+    for shift in xrange(1, order + 1):
+        plus = data.take(locs + shift, axis=axis, mode=mode)
+        minus = data.take(locs - shift, axis=axis, mode=mode)
+        results &= comparator(main, plus)
+        results &= comparator(main, minus)
+        if(~results.any()):
+            return results
+    return results
+
+def argrelmax(data, axis=0, order=1, mode='clip'):
+    """
+    Calculate the relative maxima of `data`.
+
+    See also
+    --------
+    argrelextrema,argrelmin
+    """
+    return argrelextrema(data, numpy.greater, axis, order, mode)
+
+
+def argrelextrema(data, comparator,
+                  axis=0, order=1, mode='clip'):
+    """
+    Calculate the relative extrema of `data`
+
+    Returns
+    -------
+    extrema: ndarray
+        Indices of the extrema, as an array
+        of integers (same format as argmin, argmax
+
+    See also
+    --------
+    argrelmin, argrelmax
+
+    """
+    results = _boolrelextrema(data, comparator,
+                              axis, order, mode)
+    if ~results.any():
+        return (numpy.array([]),) * 2
+    else:
+        return numpy.where(results)
 
 
 
@@ -79,7 +173,7 @@ def seizure(data):
     
     for i in range(0, len(adata)-1):
         
-        maxIndices = scipy.signal.argrelmax(data[:,i])
+        maxIndices = argrelmax(data[:,i])
         length = numpy.shape(maxIndices)[1]
         
         maxIndices = numpy.append([1], maxIndices)   # pads with the first and last indices
