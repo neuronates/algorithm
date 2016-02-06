@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 
+from pylab import *
+from matplotlib import rc, rcParams
 import numpy as np
 import matplotlib.pyplot as plt
+import pylab as pl
 
-with open("DemoEEGFile.txt") as f:
-	data = f.read()
 
-data = data.split('\n')
+# working code using matplotlib to plot
+dataMatrix1 = genfromtxt('DemoEEGFile.txt')
 
-x = [row.split(' ')[0] for row in data]
-y = [row.split(' ')[0] for row in data]
+x = dataMatrix1[:,0]
+y = dataMatrix1[:,1]
 
 fig = plt.figure()
 
@@ -24,3 +26,4 @@ ax1.plot(x,y, c='r', label='A-O Montage')
 leg = ax1.legend()
 
 plt.show()
+plt.savefig('testplot.png')
