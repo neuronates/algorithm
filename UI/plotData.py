@@ -25,5 +25,5 @@ ax1.plot(x,y, c='r', label='A-O Montage')
 
 leg = ax1.legend()
 
-plt.show()
+#plt.show()
 plt.savefig('testplot.png')

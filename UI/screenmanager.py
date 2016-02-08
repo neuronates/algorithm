@@ -30,27 +30,27 @@ MyScreenManager:
     name: 'Home'
     FloatLayout:
         Label:
-            text: 'Hello'
-            font_size: 150
+            text: 'Neonatal EEG Monitoring System'
+            font_size: 50
         BoxLayout:
             Button:
                 text: 'Home'
                 size_hint: .1, .1
                 on_release: app.root.current = 'Home'
             Button:
-                text: 'Back'
+                text: 'Run'
                 size_hint: .1, .1
                 on_release: app.root.current = 'First'
             Button:
-                text: 'Next'
+                text: 'Review Data'
                 size_hint: .1, .1
                 on_release: app.root.current = 'Second'
 <FirstScreen>:
     name: 'First'
     FloatLayout:
         Image:
-            source: 'EEG_ex.jpg'
-            size_hint: 1, 1
+            source: 'testplot.png'
+            size_hint: 1, 50
             allow_stretch: True
             keep_ratio: False
         BoxLayout:
