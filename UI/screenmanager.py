@@ -16,6 +16,7 @@ class SecondScreen(Screen):
     pass
 
 class ThirdScreen(Screen):
+    pass
 
 class MyScreenManager(ScreenManager):
     pass
@@ -27,8 +28,8 @@ load_screen = Builder.load_string('''
 MyScreenManager:
     transition: FadeTransition()
     HomeScreen:
-    FirstScreen:
     SecondScreen:
+    FirstScreen:
     ThirdScreen:
 
 <HomeScreen>:
@@ -50,6 +51,9 @@ MyScreenManager:
                 text: 'Review Data'
                 size_hint: .1, .1
                 on_release: app.root.current = 'Third'
+<SecondScreen>:
+    name: 'Second'
+    FloatLayout:
 <FirstScreen>:
     name: 'First'
     FloatLayout:
@@ -85,9 +89,18 @@ MyScreenManager:
             Button:
                 text: 'Next'
                 size_hint: .1, .1
-		on_release: app.root.current = 'Second'
-<SecondScreen>:
-    name: 'Second'
+#		on_release: app.root.current = 'Second'
+#    FloatLayout:
+#	BoxLayout:
+#	    Button:
+#		text: 'Home'
+#		size_hint: .1,.1
+#		on_release: app.root.current = 'Home'
+ #  	    Button:
+#		text: 'Back'
+#		size_hint: .1,.1
+#		on_release: app.root.current = 'First'
+		
 <ThirdScreen>:
     name: 'Third'
     FloatLayout:
