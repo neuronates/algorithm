@@ -4,6 +4,7 @@ from kivy.properties import ListProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
 
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 
@@ -48,11 +49,11 @@ MyScreenManager:
 <FirstScreen>:
     name: 'First'
     FloatLayout:
-        Image:
-            source: 'testplot.png'
-            size_hint: 1, 50
-            allow_stretch: True
-            keep_ratio: False
+#        Image:
+#            source: 'testplot.png'
+#            size_hint: 1, 1
+#            allow_stretch: True
+#            keep_ratio: False
         BoxLayout:
             Button:
                 text: 'Home'
@@ -65,12 +66,14 @@ MyScreenManager:
             Button:
                 text: 'Next'
                 size_hint: .1, .1
-                on_release: app.root.current = 'Second'
+		#on_release: app.root.current = 'Second'
+	    TextInput:
+		size_hint_x: 25
 <SecondScreen>:
     name: 'Second'
     FloatLayout:
         Image:
-            source: 'EEG_baby.jpg'
+            source: 'testplot.png'
             size_hint: 1, 1
             allow_stretch: True
             keep_ratio: False

@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import matplotlib
+matplotlib.use('Agg')
 from pylab import *
 from matplotlib import rc, rcParams
 import numpy as np
