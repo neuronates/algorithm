@@ -9,9 +9,15 @@ from kivy.uix.camera import Camera
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.dropdown import DropDown
-from kivy.uix.label import Label
-from kivy.base import runTouchApp
 from kivy.uix.scrollview import ScrollView
+from numpy import *
+from functools import partial
+
+with open('patientData.txt','r') as f:
+    data=f.read()
+data = data.splitlines()
+
+num_lines = sum(1 for line in open('patientData.txt'))
 
 class HomeScreen(Screen):
     pass
@@ -20,33 +26,33 @@ class FirstScreen(Screen):
 class SecondScreen(Screen):
     pass
 class ThirdScreen(Screen):
+#    def saveName(self,name, *args):
+#        f = open('choosePatient.txt','w')
+#        f.write(name + '\n')
+#        f.close()
+
     def __init__(self, **kwargs):
         super(ThirdScreen, self).__init__(**kwargs)
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
-        for i in range(30):
-            btn = Button(text=str(i),size_hint_y=None,height=40)
+        for i in range(num_lines):
+            btn = Button(text=data[i],size_hint_y=None,height=40)
+            btn.bind(on_release=partial(self.saveName,data[i]))
             layout.add_widget(btn)
         root = ScrollView(size_hint=(None,None),size=(400,400),pos_hint={'Center_x':.5, 'Center_y':.5})
         root.add_widget(layout)
         self.add_widget(root)
+    def saveName(self,name, *args):
+        f = open('choosePatient.txt','w')
+        f.write(name + '\n')
+        f.close()
+
 
 class FourthScreen(Screen):
     pass 
 
 class MyScreenManager(ScreenManager):
     pass
-
-#class CustomDropDown(DropDown):
-#    dropdown = DropDown()
-#    for index in range(5):
-#    	btn = Button(text='Value %d' % index, size_hint_y=None, height=44)
-#    	btn.bind(on_release=lambda btn: dropdown.select(btn.text))
-#    	dropdown.add_widget(btn)
-#    mainbutton = Button(text='Choose Patient', size_hint=(None,None),pos_hint={'x': 0.5,'y': 0.5})
-#    mainbutton.bind(on_release=dropdown.open)
-#    dropdown.bind(on_select=lambda instance, x: setattr(mainbutton,'text',x))
-
 
 load_screen = Builder.load_string('''
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
@@ -142,25 +148,9 @@ MyScreenManager:
 #		size_hint: .1,.1
 #		on_release: app.root.current = 'First'
 
-#<CustomDropDown>:
-#    Button:
-#    	text: 'First Item'
-#    	size_hint_y: None
-#        pos_hint: {'x':0.2,'y':0.8}
-#    	height: 44
-#    	on_release: root.select('item1')
-#    Button:
-#    	text: 'Second Item'
-#    	size_hint_y: None
-#    	height: 44
-#    	on_release: root.select('item2')	
 <ThirdScreen>:
     name: 'Third'
     FloatLayout:
-#        Button:
-#            text: 'Select Patient'
-#            size_hint: .3, .3
-#            on_release: app.dropDownButton()
 	BoxLayout:
 	    Button:
     		text: 'Home'
@@ -200,27 +190,12 @@ MyScreenManager:
 class ScreenManagerApp(App):
 
     def build(self):
-        #root = ScreenManager()
-#        root.add_widget(HomeScreen(name='Home'))
-#        root.add_widget(FirstScreen(First))
-#        root.add_widget(SecondScreen(name='Second'))
-#        root.add_widget(ThirdScreen(Third))
-#        root.add_widget(FourthScreen(name='Fourth'))
-
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
         for i in range(30):
             btn = Button(text=str(i),size_hint_y=None,height=40)
             layout.add_widget(btn)
         root = ScrollView(size_hint=(None,None),size=(400,400),pos_hint={'center_x':.5, 'center_y':.5})
-#        root.add_widget(layout)
-#        ThirdScreen().add_widget(root)
-#        load_screen.add_widget(ThirdScreen())
-#        ThirdScreen().add_widget(scroll)
-       # root.add_widget(ThirdScreen())        
-#        FirstScreen().add_widget(scroll)
-#        root.add_widget(FirstScreen(name='First'))
-        #load_screen.Third.add_widget(root)
         return load_screen
     
     def save(self, name, date):
@@ -228,13 +203,9 @@ class ScreenManagerApp(App):
 	f.write(name + ' ')
 	f.write(date + '\n')
 	f.close()
-
-#    def dropDownButton(self):
-#        CustomDropDown().open
-        #for index in range(10):
-        #    btn = Button(text='Value %d' % index, size_hint_y=None, height=44)
-        #    btn.bind(on_release=lambda btn: dropdown.select(btn.text))
-        #    dropdown.add_widget(btn)
-        #dropdown.open
+    def saveName(self,name):
+        f = open('choosePatient.txt','w')
+        f.write(name)
+        f.close()
 
 ScreenManagerApp().run()
