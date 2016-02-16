@@ -22,7 +22,7 @@ int readadc(adcnum)
 int main(int argc, char *argv[])
 {
  int i, chan;
- uint32_t x1, tot ;
+ uint64_t x1, tot ;
  
  printf ("SPI test program\n") ;
  // initialize the WiringPi API
