@@ -13,6 +13,7 @@
 import spidev
 import time
 import os
+import numpy
 
 # Open SPI bus
 spi = spidev.SpiDev()
@@ -33,24 +34,32 @@ def ConvertVolts(data,places):
   return volts
   
 # Define sensor channels
-chan = 0
-
+chan = [0, 1, 2, 3, 4, 5, 6, 7]
+sampling_rate = 256
+window_length = 30
+num_samples = sampling_rate * window_length
+precision = 3
 # Define delay between readings
-delay = 5
+delay = (1.0/sampling_rate)
 
-try:
-	while True:
-	
-		 # Read the light sensor data
- 		 chan_data = ReadChannel(chan)
- 		 chan_volts = ConvertVolts(chan_data,2)
+eegData = np.empty(sampling_rate * window_length,len(chan))
 
- 		 # Print out results
- 		 print "--------------------------------------------"  
- 		 print("Voltage : {} ({}V)".format(chan_data,chan_volts))  
+while True:
+	try:
+		for i in xrange(num_samples):
+		 	
+			eegData[i] = [ConvertVolts(ReadChannel(c), precision) for c in xrange(len(chan))]
+		 	
+		# Read the light sensor data
+ 		chan_data = ReadChannel(chan)
+ 		chan_volts = ConvertVolts(chan_data,2)
 
-		 # Wait before repeating loop
- 		 time.sleep(delay)
+ 		# Print out results
+ 		print "--------------------------------------------"  
+ 		print("Voltage : {}V".format(eegData[i,0]))  
 
-except KeyboardInterrupt:
-	print "Stopped!"
+		# Wait before repeating loop
+ 		time.sleep(delay)
+
+	except KeyboardInterrupt:
+		print "Stopped!"
