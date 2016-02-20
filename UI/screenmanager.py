@@ -12,12 +12,26 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.scrollview import ScrollView
 from numpy import *
 from functools import partial
+import matplotlib
+matplotlib.use('Agg')
+#from pylab import *
+import pylab as pl
+from kivy.garden.graph import Graph, LinePlot
+from kivy.uix.widget import Widget
+import numpy as np
 
+#get all patients stored in the file
 with open('patientData.txt','r') as f:
     data=f.read()
 data = data.splitlines()
 
 num_lines = sum(1 for line in open('patientData.txt'))
+
+#get data for patient
+dataMatrix1 = genfromtxt('DemoEEGFile.txt')
+x = dataMatrix1[:,0]
+y = dataMatrix1[:,1]
+
 
 class HomeScreen(Screen):
     pass
@@ -26,11 +40,6 @@ class FirstScreen(Screen):
 class SecondScreen(Screen):
     pass
 class ThirdScreen(Screen):
-#    def saveName(self,name, *args):
-#        f = open('choosePatient.txt','w')
-#        f.write(name + '\n')
-#        f.close()
-
     def __init__(self, **kwargs):
         super(ThirdScreen, self).__init__(**kwargs)
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
@@ -49,8 +58,26 @@ class ThirdScreen(Screen):
 
 
 class FourthScreen(Screen):
-    pass 
-
+    pass
+    def __init__(self, **kwargs):
+        super(FourthScreen, self).__init__(**kwargs)
+        graph = Graph()
+        plot = LinePlot(mode='line_strip',color=[1,0,0,1])
+        plot.points = [(x[i],y[i]) for i in xrange(len(x))]
+        graph.add_plot(plot)
+        graph.x_ticks_major=1
+        graph.xmin=5
+        graph.xmax=9
+        graph.ymin=3800
+        graph.ymax=3880
+        graph.y_ticks_major=10
+        #graph.x_grid_label=True
+        #graph.y_grid_label=True
+        graph.xlabel='Time (min)'
+        graph.ylabel='Brain Wave Amplitude (mV)'
+        graph.y_grid = True
+        graph.x_grid = True
+        self.add_widget(graph)        
 class MyScreenManager(ScreenManager):
     pass
 
@@ -167,11 +194,11 @@ MyScreenManager:
 <FourthScreen>:
     name: 'Fourth'
     FloatLayout:
-        Image:
-            source: 'testplot.png'
-            size_hint: 1, 1
-            allow_stretch: True
-            keep_ratio: False
+#        Image:
+#            source: 'testplot.png'
+#            size_hint: 1, 1
+#            allow_stretch: True
+#            keep_ratio: False
         BoxLayout:
             Button:
                 text: 'Home'
