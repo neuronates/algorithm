@@ -45,14 +45,10 @@ delay = (1.0/sampling_rate)
 eegData = np.empty(sampling_rate * window_length,len(chan))
 
 while True:
+	
 	try:
 		for i in xrange(num_samples):
-		 	
 			eegData[i] = [ConvertVolts(ReadChannel(c), precision) for c in xrange(len(chan))]
-		 	
-		# Read the light sensor data
- 		chan_data = ReadChannel(chan)
- 		chan_volts = ConvertVolts(chan_data,2)
 
  		# Print out results
  		print "--------------------------------------------"  
