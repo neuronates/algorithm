@@ -1,46 +1,42 @@
 #!/usr/bin/python
-from math import sin
-from kivy.garden.graph import Graph, MeshLinePlot
-from kivy.app import App
-
-graph = Graph()#(xlabel='X', ylabel='Y', x_ticks_minor=5, 
-#x_ticks_major=25, y_ticks_major=1,
-#y_grid_label=True, x_grid_label=True, padding=5,
-#x_grid=True, y_grid=True, xmin =-0, xmax=100, ymin=-1, ymax=1)
-plot = MeshLinePlot(color=[1,0,0,1])
-plot.points=  [(x,sin(x/10.)) for x in range (-0,101)]
-graph.add_plot(plot)
-
-
-"""
 import matplotlib
-matplotlib.use('module://kivy.garden.matplotlib.backend_kivy')
+matplotlib.use('Agg')
 from pylab import *
-from matplotlib import rc, rcParams
-import numpy as np
-import matplotlib.pyplot as plt
 import pylab as pl
+from math import sin
+from kivy.garden.graph import Graph, LinePlot
+from kivy.app import App
+from kivy.uix.widget import Widget
+from kivy.graphics import *
+import numpy as np
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.scrollview import ScrollView
 
-
-
-# working code using matplotlib to plot
 dataMatrix1 = genfromtxt('DemoEEGFile.txt')
 
 x = dataMatrix1[:,0]
 y = dataMatrix1[:,1]
 
-fig = plt.figure()
+class kivyPlotApp(App):
+	def build(self):
+		graph = Graph()
+		plot = LinePlot(mode='line_strip', color=[1,0,0,1])
+		plot.points = [(x[i],y[i]) for i in xrange(len(x))]
+		graph.add_plot(plot)
+		graph.x_ticks_major=1
+		graph.xmin=5
+		graph.xmax=6
+		graph.ymin=3800
+		graph.ymax=3880
+		graph.y_ticks_major=25
+		graph.y_grid_label=True
+		graph.x_grid_label=True
+		graph.xlabel='X axis'
+		graph.ylabel='Y axis'
+		graph.y_grid = True
+		graph.x_grid = True
+		return graph
 
-ax1 = fig.add_subplot(111)
+if __name__ == '__main__':
+	kivyPlotApp().run()
 
-ax1.set_title("EEG Data")
-ax1.set_xlabel('Time (minutes)')
-ax1.set_ylabel('EEG Voltage (mV)')
-
-ax1.plot(x,y, c='r', label='A-O Montage')
-
-leg = ax1.legend()
-
-plt.show()
-plt.savefig('testplot.png')
-"""
