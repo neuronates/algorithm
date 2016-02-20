@@ -54,4 +54,4 @@ while True:
     
   except KeyboardInterrupt:
     print "Stopped!"
-    exit
+    exit()
