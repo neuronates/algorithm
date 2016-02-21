@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import kivy
 kivy.require('1.4.0')
 

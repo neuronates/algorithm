@@ -13,11 +13,12 @@
 import spidev
 import time
 import os
-import numpy
+import numpy as np
 
 # Open SPI bus
 spi = spidev.SpiDev()
 spi.open(0,0)
+spi.max_speed_hz = 122000
 
 # Function to read SPI data from MCP3008 chip
 # Channel must be an integer 0-7
@@ -40,9 +41,10 @@ window_length = 30
 num_samples = sampling_rate * window_length
 precision = 3
 # Define delay between readings
-delay = (1.0/sampling_rate)
+#delay = (1.0/sampling_rate)
+delay = 0
 
-eegData = np.empty(sampling_rate * window_length,len(chan))
+eegData = np.empty((sampling_rate * window_length,len(chan)))
 
 while True:
 	
@@ -50,13 +52,14 @@ while True:
 		for i in xrange(num_samples):
 			eegData[i] = [ConvertVolts(ReadChannel(c), precision) for c in xrange(len(chan))]
 
- 		# Print out results
- 		print "--------------------------------------------"  
- 		print("Voltage : {}V".format(eegData[i,0]))  
+ 			# Print out results
+ 			print "--------------------------------------------"  
+ 			print("Voltage : {}V".format(eegData[i]))  
 
-		# Wait before repeating loop
- 		time.sleep(delay)
+			# Wait before repeating loop
+	 		time.sleep(delay)
 
 	except KeyboardInterrupt:
+		spi.close() 
 		print "Stopped!"
 		exit()
