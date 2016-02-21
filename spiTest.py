@@ -18,21 +18,21 @@ import numpy as np
 # Open SPI bus
 spi = spidev.SpiDev()
 spi.open(0,0)
-spi.max_speed_hz = 122000
-spi.mode = 0b01
+#spi.max_speed_hz = 122000
+#spi.mode = 0b01
 
 # Function to read SPI data from MCP3008 chip
 # Channel must be an integer 0-7
 def ReadChannel(channel):
   adc = spi.xfer2([1,(8+channel)<<4,0])
   data = ((adc[1]&3) << 8) + adc[2]
-  spi.xfer2([32, 0])
+ # spi.xfer2([32, 0])
   return data
 
 # Function to convert data to voltage level,
 # rounded to specified number of decimal places. 
 def ConvertVolts(data,places):
-  volts = (data * 3.3)# / float(2^24-1)
+  volts = (data * 3.3)/float(2^10-1)
   volts = round(volts,places)  
   return volts
   
@@ -43,8 +43,8 @@ window_length = 30
 num_samples = sampling_rate * window_length
 precision = 3
 # Define delay between readings
-#delay = (1.0/sampling_rate)
-delay = 0
+delay = (1.0/sampling_rate)
+#delay = 0
 
 eegData = np.empty((sampling_rate * window_length,len(chan)))
 
