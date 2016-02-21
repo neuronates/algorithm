@@ -37,7 +37,7 @@ def ConvertVolts(data,places):
   return volts
   
 # Define sensor channels
-chan = [0, 1, 2, 3, 4, 5, 6, 7]
+chan = [0, 1]#, 2, 3, 4, 5, 6, 7]
 sampling_rate = 256
 window_length = 30
 num_samples = sampling_rate * window_length
@@ -62,7 +62,7 @@ while True:
 	 		time.sleep(delay)
 
 	except KeyboardInterrupt:
-		np.savetxt('out.txt', eegData, delimiter=',')
+		np.savetxt('out2.txt', eegData, delimiter=',')
 		spi.close() 
 		print "Stopped!"
 		exit()
