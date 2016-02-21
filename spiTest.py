@@ -19,18 +19,20 @@ import numpy as np
 spi = spidev.SpiDev()
 spi.open(0,0)
 spi.max_speed_hz = 122000
+spi.mode = 0b01
 
 # Function to read SPI data from MCP3008 chip
 # Channel must be an integer 0-7
 def ReadChannel(channel):
   adc = spi.xfer2([1,(8+channel)<<4,0])
   data = ((adc[1]&3) << 8) + adc[2]
+  spi.xfer2([32, 0])
   return data
 
 # Function to convert data to voltage level,
 # rounded to specified number of decimal places. 
 def ConvertVolts(data,places):
-  volts = (data * 3.3) / float(2^24-1)
+  volts = (data * 3.3)# / float(2^24-1)
   volts = round(volts,places)  
   return volts
   
@@ -60,6 +62,7 @@ while True:
 	 		time.sleep(delay)
 
 	except KeyboardInterrupt:
+		np.savetxt('out.txt', eegData, delimiter=',')
 		spi.close() 
 		print "Stopped!"
 		exit()
