@@ -112,13 +112,18 @@ MyScreenManager:
                 on_release: app.root.current = 'Third'
 <SecondScreen>:
     name: 'Second'
-    FloatLayout:
-#	Camera:
-#	    id: camera
-#	    resolution: (640,480)
-#	    play: False
-	Label:
-	    text: 'Neonatal EEG Monitoring System'
+    BoxLayout:
+	Camera:
+	    id: camera
+	    resolution: (640,480)
+	    play: False
+        ToggleButton:
+            text: 'Play'
+            on_press: camera.play = not camera.play
+            size_hint_y: None
+            height: '48dp'
+	#Label:
+	    #text: 'Neonatal EEG Monitoring System'
 	BoxLayout:
 	    Button:
 	    	text: 'Home'

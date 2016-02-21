@@ -18,8 +18,8 @@ import numpy as np
 # Open SPI bus
 spi = spidev.SpiDev()
 spi.open(0,0)
-#spi.max_speed_hz = 122000
-#spi.mode = 0b01
+spi.max_speed_hz = 122000
+spi.mode = 0b01
 
 # Function to read SPI data from MCP3008 chip
 # Channel must be an integer 0-7
@@ -32,12 +32,12 @@ def ReadChannel(channel):
 # Function to convert data to voltage level,
 # rounded to specified number of decimal places. 
 def ConvertVolts(data,places):
-  volts = (data * 3.3)/float(2^10-1)
+  volts = (data * 3.3)/float(2**24-1)
   volts = round(volts,places)  
   return volts
   
 # Define sensor channels
-chan = [0, 1]#, 2, 3, 4, 5, 6, 7]
+chan = [0, 1, 2, 3, 4, 5, 6, 7]
 sampling_rate = 256
 window_length = 30
 num_samples = sampling_rate * window_length
