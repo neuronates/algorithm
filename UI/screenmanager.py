@@ -1,3 +1,4 @@
+import sys
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.properties import ListProperty
@@ -113,10 +114,10 @@ MyScreenManager:
 <SecondScreen>:
     name: 'Second'
     BoxLayout:
-	Camera:
-	    id: camera
-	    resolution: (640,480)
-	    play: True
+#	Camera:
+#	    id: camera
+#	    resolution: (640,480)
+#	    play: True
 #        ToggleButton:
 #            text: 'Play'
 #            on_press: camera.play = not camera.play
@@ -132,6 +133,7 @@ MyScreenManager:
 	    Button: 
 	    	text: 'Run EEG System'
 	    	size_hint: .1,.1
+#                on_release: sys.execfile('spiTest.py')
 #            ToggleButton:
 #                text: 'Play'
 #                height: '48p'
@@ -171,8 +173,10 @@ MyScreenManager:
             Button:
                 text: 'Next'
                 size_hint: .1, .1
-    	        on_release: app.root.current = 'Second'
-                on_release: app.save(name_input.text, date_input.text)
+                on_press: app.save(name_input.text, date_input.text)
+    	        on_release: execfile("capture-file.py") #app.root.current = 'Second'
+                on_release: app.root.current = 'Home'
+		#on_release: app.save(name_input.text, date_input.text)
 #    FloatLayout:
 #	BoxLayout:
 #	    Button:
