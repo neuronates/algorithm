@@ -8,7 +8,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
-from kivy.uix.camera import Camera
+#from kivy.uix.camera import Camera
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.dropdown import DropDown
@@ -40,7 +40,7 @@ y = dataMatrix1[:,1]
 xmin = math.trunc(x[0])
 ymin = math.trunc(min(y))#math.trunc(y[0])
 xmax = xmin+1
-#xmax = math.trunc(x[len(x)-1])
+xGlobalmax = math.trunc(x[len(x)-1])
 ymax = math.trunc(max(y))#math.trunc(y[len(y)-1])
 
 class HomeScreen(Screen):
@@ -72,10 +72,14 @@ class FourthScreen(Screen):
     def __init__(self, **kwargs):
         super(FourthScreen, self).__init__(**kwargs)
         #self = FloatLayout(orientation='horizontal')
+
+	# create buttons
         btnRight = Button(text='Scroll', size_hint=(.05,1),pos_hint={'right':1})#,'y':0})
         btnLeft = Button(text='Scroll', size_hint=(.05,1),pos_hint={'left':1})			
         self.add_widget(btnRight)
         self.add_widget(btnLeft)
+        
+	# create graph
         graph = Graph()
         plot = LinePlot(mode='line_strip',color=[1,0,0,1])
         plot.points = [(x[i],y[i]) for i in xrange(len(x))]
@@ -91,24 +95,41 @@ class FourthScreen(Screen):
         graph.y_grid = True
         graph.x_grid = True
         graph.size_hint=(1,0.5)
-#        graph.pos={'x':0,'y':0}
+
+        # create video player
+        video = VideoPlayer(source='video_demo.mp4')
+        video.play=False
+        video.size_hint=(1,0.5)
+        video.pos=(0,0)        
+
+        graph.pos=(0,self.height)
         def moveRight(obj):
 	    global xmin
             global xmax
+            global xGlobalmax
             xmin=xmin+.5
             xmax=xmax+.5
             graph.xmin=xmin
             graph.xmax=xmax
+            
+            percent = 1-(xGlobalmax-xmin)/xGlobalmax
+            video.seek(percent)
+
         btnRight.bind(on_release=moveRight)
         def moveLeft(obj):
             global xmin
             global xmax
+            global xGlobalmax
             xmin=xmin-.5
             xmax=xmax-.5
             graph.xmin=xmin
             graph.xmax=xmax
+
+            percent = 1-(xGlobalmax-xmin)/xGlobalmax
+            video.seek(percent)
         btnLeft.bind(on_release=moveLeft)
         self.add_widget(graph)
+        self.add_widget(video)
 class MyScreenManager(ScreenManager):
     pass
 
@@ -238,12 +259,12 @@ MyScreenManager:
 <FourthScreen>:
     name: 'Fourth'
     FloatLayout:
-        VideoPlayer:
-            id: video
-            source: 'video_demo.mp4'
-            size_hint: 1,0.5
-            pos: 0, self.height
-            play: False
+        #VideoPlayer:
+        #    id: video
+        #    source: 'video_demo.mp4'
+        #    size_hint: 1,0.5
+        #    pos: 0, self.height
+        #    play: False
 #        Image:
 #            source: 'testplot.png'
 #            size_hint: 1, 1
