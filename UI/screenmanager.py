@@ -1,3 +1,5 @@
+from kivy.uix.video import Video
+from kivy.uix.videoplayer import VideoPlayer
 import sys
 from kivy.app import App
 from kivy.lang import Builder
@@ -20,6 +22,7 @@ import pylab as pl
 from kivy.garden.graph import Graph, LinePlot
 from kivy.uix.widget import Widget
 import numpy as np
+import math
 
 #get all patients stored in the file
 with open('patientData.txt','r') as f:
@@ -31,6 +34,7 @@ num_lines = sum(1 for line in open('patientData.txt'))
 #get data for patient
 dataMatrix1 = genfromtxt('DemoEEGFile.txt')
 x = dataMatrix1[:,0]
+x = x - 5.539
 y = dataMatrix1[:,1]
 
 xmin = math.trunc(x[0])
@@ -67,7 +71,7 @@ class FourthScreen(Screen):
     pass
     def __init__(self, **kwargs):
         super(FourthScreen, self).__init__(**kwargs)
-        self = FloatLayout(orientation='horizontal')
+        #self = FloatLayout(orientation='horizontal')
         btnRight = Button(text='Scroll', size_hint=(.05,1),pos_hint={'right':1})#,'y':0})
         btnLeft = Button(text='Scroll', size_hint=(.05,1),pos_hint={'left':1})			
         self.add_widget(btnRight)
@@ -76,19 +80,18 @@ class FourthScreen(Screen):
         plot = LinePlot(mode='line_strip',color=[1,0,0,1])
         plot.points = [(x[i],y[i]) for i in xrange(len(x))]
         graph.add_plot(plot)
-        graph.x_ticks_major=1
+        graph.x_ticks_major=.5
         graph.xmin=5
         graph.xmax=9
         graph.ymin=3800
         graph.ymax=3880
         graph.y_ticks_major=10
-        #graph.x_grid_label=True
-        #graph.y_grid_label=True
         graph.xlabel='Time (min)'
         graph.ylabel='Brain Wave Amplitude (mV)'
         graph.y_grid = True
         graph.x_grid = True
-        
+        graph.size_hint=(1,0.5)
+#        graph.pos={'x':0,'y':0}
         def moveRight(obj):
 	    global xmin
             global xmax
@@ -105,7 +108,7 @@ class FourthScreen(Screen):
             graph.xmin=xmin
             graph.xmax=xmax
         btnLeft.bind(on_release=moveLeft)
-        self.add_widget(graph)        
+        self.add_widget(graph)
 class MyScreenManager(ScreenManager):
     pass
 
@@ -201,7 +204,8 @@ MyScreenManager:
                 text: 'Next'
                 size_hint: .1, .1
                 on_press: app.save(name_input.text, date_input.text)
-    	        on_release: execfile("capture-file.py") #app.root.current = 'Second'
+               # on_release: execfile('./capture-file.sh') 
+                on_release: execfile("capture-file.py") #app.root.current = 'Second'
                 on_release: app.root.current = 'Home'
 		#on_release: app.save(name_input.text, date_input.text)
 #    FloatLayout:
@@ -234,6 +238,12 @@ MyScreenManager:
 <FourthScreen>:
     name: 'Fourth'
     FloatLayout:
+        VideoPlayer:
+            id: video
+            source: 'video_demo.mp4'
+            size_hint: 1,0.5
+            pos: 0, self.height
+            play: False
 #        Image:
 #            source: 'testplot.png'
 #            size_hint: 1, 1

@@ -5,5 +5,5 @@ with picamera.PiCamera() as camera:
 	camera.framerate = 30
 	camera.start_preview()
 	camera.start_recording('video_demo.h264')
-	camera.wait_recording(10)
+	camera.wait_recording(60)
 	camera.stop_recording()
