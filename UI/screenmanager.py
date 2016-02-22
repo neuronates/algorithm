@@ -52,13 +52,15 @@ class SecondScreen(Screen):
 class ThirdScreen(Screen):
     def __init__(self, **kwargs):
         super(ThirdScreen, self).__init__(**kwargs)
+
+	# create scrolling for viewing patient data
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
         for i in range(num_lines):
             btn = Button(text=data[i],size_hint_y=None,height=40)
             btn.bind(on_release=partial(self.saveName,data[i]))
             layout.add_widget(btn)
-        root = ScrollView(size_hint=(None,None),size=(400,400),pos_hint={'Center_x':.5, 'Center_y':.5})
+        root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
         root.add_widget(layout)
         self.add_widget(root)
     def saveName(self,name, *args):
@@ -71,10 +73,9 @@ class FourthScreen(Screen):
     pass
     def __init__(self, **kwargs):
         super(FourthScreen, self).__init__(**kwargs)
-        #self = FloatLayout(orientation='horizontal')
 
 	# create buttons
-        btnRight = Button(text='Scroll', size_hint=(.05,1),pos_hint={'right':1})#,'y':0})
+        btnRight = Button(text='Scroll', size_hint=(.05,1),pos_hint={'x':0.45})#,'y':0})
         btnLeft = Button(text='Scroll', size_hint=(.05,1),pos_hint={'left':1})			
         self.add_widget(btnRight)
         self.add_widget(btnLeft)
@@ -85,24 +86,26 @@ class FourthScreen(Screen):
         plot.points = [(x[i],y[i]) for i in xrange(len(x))]
         graph.add_plot(plot)
         graph.x_ticks_major=.5
-        graph.xmin=5
-        graph.xmax=9
-        graph.ymin=3800
-        graph.ymax=3880
+        graph.xmin=xmin
+        graph.xmax=xmax
+        graph.ymin=ymin
+        graph.ymax=ymax
         graph.y_ticks_major=10
         graph.xlabel='Time (min)'
         graph.ylabel='Brain Wave Amplitude (mV)'
         graph.y_grid = True
         graph.x_grid = True
-        graph.size_hint=(1,0.5)
+        graph.size_hint=(0.4,0.9)
+        graph.x_grid_label=True
+        graph.y_grid_label=True
 
         # create video player
         video = VideoPlayer(source='video_demo.mp4')
         video.play=False
-        video.size_hint=(1,0.5)
-        video.pos=(0,0)        
+        video.size_hint=(0.5,1)
+        video.pos_hint={'right':1,'top':1}       
 
-        graph.pos=(0,self.height)
+        graph.pos_hint={'x':0.05,'top':1}
         def moveRight(obj):
 	    global xmin
             global xmax
