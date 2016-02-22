@@ -116,12 +116,12 @@ MyScreenManager:
 	Camera:
 	    id: camera
 	    resolution: (640,480)
-	    play: False
-        ToggleButton:
-            text: 'Play'
-            on_press: camera.play = not camera.play
-            size_hint_y: None
-            height: '48dp'
+	    play: True
+#        ToggleButton:
+#            text: 'Play'
+#            on_press: camera.play = not camera.play
+#            size_hint_y: None
+#            height: '48dp'
 	#Label:
 	    #text: 'Neonatal EEG Monitoring System'
 	BoxLayout:
@@ -132,6 +132,10 @@ MyScreenManager:
 	    Button: 
 	    	text: 'Run EEG System'
 	    	size_hint: .1,.1
+#            ToggleButton:
+#                text: 'Play'
+#                height: '48p'
+#                on_press: camera.play = not camera.play
 <FirstScreen>:
     name: 'First'
     FloatLayout:
