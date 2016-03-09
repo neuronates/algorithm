@@ -77,7 +77,7 @@ int main(int argc, char **argv){
          printf("Internal Reference set \n");
 
          //Read Register
-         char read[] = { 0x20 , 0x00, 0x00, 0x00 };
+         char read[] = { 0x20 , 0x00, 0x00 };
          bcm2835_spi_transfern(read, sizeof(read));
          printf("Data Read: %X , %X \n", read[0], read[1]);
          //Close Device
