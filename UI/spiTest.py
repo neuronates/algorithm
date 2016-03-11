@@ -16,7 +16,7 @@ import os
 import numpy as np
 
 #if __name__ == '__main__':
-def spiTest():
+def spiTestRun():
 	# Open SPI bus
 	spi = spidev.SpiDev()
 	spi.open(0,0)
