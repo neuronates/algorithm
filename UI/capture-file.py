@@ -29,6 +29,6 @@ with picamera.PiCamera() as camera:
 		print 'recording stopped'
 	
 	except KeyboardInterrupt:
-		'Stopped by Keyboard'
+		print 'Stopped by Keyboard'
 		camera.stop_recording()
 		p2.terminate()	
