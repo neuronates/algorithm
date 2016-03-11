@@ -20,8 +20,9 @@ with picamera.PiCamera() as camera:
 	#Process(target = spiTest).start()
 	#Process(target = camera.wait_recording, args = (time)).start()
 	print 'wait recording'
-	p1.start()
+	#p1.start()
 	print 'done'
 	#p2.start()
 	camera.stop_recording()
+	p2.terminate()
 	print 'recording stopped'
