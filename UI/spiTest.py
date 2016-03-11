@@ -15,7 +15,8 @@ import time
 import os
 import numpy as np
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
+def spiTest():
 	# Open SPI bus
 	spi = spidev.SpiDev()
 	spi.open(0,0)
