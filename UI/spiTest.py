@@ -58,15 +58,15 @@ def spiTestRun():
 			print "Stopped!\n"
 			exit()
 
-def ReadChannel(channel):
-  adc = spi.xfer2([1,(8+channel)<<4,0])
-  data = ((adc[1]&3) << 8) + adc[2]
- # spi.xfer2([32, 0])
-  return data
+	def ReadChannel(channel):
+  		adc = spi.xfer2([1,(8+channel)<<4,0])
+  		data = ((adc[1]&3) << 8) + adc[2]
+ 		# spi.xfer2([32, 0])
+  		return data
 
-# Function to convert data to voltage level,
-# rounded to specified number of decimal places. 
-def ConvertVolts(data,places):
-  volts = (data * 3.3)/float(1023)#2**24-1)
-  volts = round(volts,places)  
-  return volts
+	# Function to convert data to voltage level,
+	# rounded to specified number of decimal places. 
+	def ConvertVolts(data,places):
+		volts = (data * 3.3)/float(1023)#2**24-1)
+  		volts = round(volts,places)  
+  		return volts
