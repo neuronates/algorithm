@@ -14,6 +14,7 @@ import spidev
 import time
 import os
 import numpy as np
+import atexit
 
 #if __name__ == '__main__':
 def spiTestRun():
@@ -52,21 +53,22 @@ def spiTestRun():
 
 	while True:
 	
-		try:
-			for i in xrange(num_samples):
-				eegData[i] = [ConvertVolts(ReadChannel(c), precision) for c in xrange(len(chan))]
+		for i in xrange(num_samples):
+			eegData[i] = [ConvertVolts(ReadChannel(c), precision) for c in xrange(len(chan))]
 
-	 			# Print out results
-	 			print "--------------------------------------------"  
-	 			print("Voltage : {}V".format(eegData[i]))  
+ 			# Print out results
+ 			print "--------------------------------------------"  
+ 			print("Voltage : {}V".format(eegData[i]))  
 
-				# Wait before repeating loop
-		 		time.sleep(delay)
+			# Wait before repeating loop
+	 		time.sleep(delay)
 
-		except KeyboardInterrupt:
-			np.savetxt('out2.txt', eegData, delimiter=',')
-			spi.close() 
-			print "Stopped!\n"
-			exit()
+	def saveFile():
+		np.savetxt('out.txt', eegData, delimiter=',')
+		spi.close() 
+		print "Stopped!\n"
+
+	import atexit
+	atexit.register(saveFile)
 
 
