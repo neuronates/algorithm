@@ -102,7 +102,7 @@ class FourthScreen(Screen):
         # create video player
         video = VideoPlayer(source='video_demo.mp4')
         video.play=False
-        video.size_hint=(0.5,1)
+        video.size_hint=(0.5,0.9)
         video.pos_hint={'right':1,'top':1}       
 
         graph.pos_hint={'x':0.05,'top':1}

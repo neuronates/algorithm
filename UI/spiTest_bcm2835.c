@@ -66,6 +66,7 @@ int main(int argc, char **argv){
          bcm2835_delay(50);
          // send SDATAC
          int error;
+	 printf("About to send SDATAC \n");
          error = bcm2835_spi_transfer(SDATAC);
 
          printf("SDATAC sent \n");

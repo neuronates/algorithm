@@ -5,7 +5,7 @@ import picamera
 with picamera.PiCamera() as camera:
 	
 	try:
-		time = 5
+		time = 30
 		print 'start'
 		#Initialize concurrent processes
 		p1 = Process(target = camera.wait_recording, args = (time,))
