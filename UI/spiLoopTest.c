@@ -25,19 +25,16 @@ int main(int argc, char **argv)
     // If you call this, it will not actually access the GPIO
 // Use for testing
 //        bcm2835_set_debug(1);
-
-    if((bcm2835_init())<0)
-    {
-            printf("Could not load the bcm2835 library \n");
-            exit(1);
-     }
-     printf("Library loaded \n");
-
-    if ((bcm2835_spi_begin())<0)
-    {
-      printf("bcm2835_spi_begin failedg. Are you running as root??\n");
-      return 1;
+    
+    if((bcm2835_init())<0){
+        printf("Could not load the bcm2835 library \n");
+        exit(1);
     }
+    printf("Library loaded \n");
+    
+    //initiate SPI
+    bcm2835_spi_begin();
+     
     bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
     bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
     bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_65536); // The default
