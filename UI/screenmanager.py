@@ -23,6 +23,7 @@ from kivy.garden.graph import Graph, LinePlot
 from kivy.uix.widget import Widget
 import numpy as np
 import math
+from kivy.core.window import Window
 
 #get all patients stored in the file
 with open('patientData.txt','r') as f:
@@ -197,23 +198,23 @@ MyScreenManager:
     FloatLayout:
 	Label: 
 		text: 'Patient Name'
-		pos_hint: {'x':0.2,'y':0.3}
+		pos_hint: {'x':0.2,'y':0.6}
 		size_hint: .1,.1
 
 	TextInput:
 		id: name_input
 		multiline: False
 		size_hint: .3,.1
-		pos_hint: {'x':0.5,'y':0.3}
+		pos_hint: {'x':0.5,'y':0.6}
 	Label:
 		text: 'Date'
-		pos_hint: {'x':0.2,'y':0.7}
+		pos_hint: {'x':0.2,'y':0.8}
 		size_hint: .1,.1
 	TextInput:
 		id: date_input
 		multiline: False
 		size_hint: .3,.1
-		pos_hint: {'x':0.5,'y':0.7}
+		pos_hint: {'x':0.5,'y':0.8}
     FloatLayout:
         BoxLayout:
             Button:
@@ -289,6 +290,10 @@ MyScreenManager:
 ''')
 
 class ScreenManagerApp(App):
+
+    Window.allow_vkeyboard = True
+    Window.single_vkeybboard = True
+    Window.docked_vkeyboard = True
 
     def build(self):
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
