@@ -9,7 +9,9 @@
 
 
 #include "pins_arduino.h"
+#include "Arduino.h"
 #include "ADS1299.h"
+#include "stdio.h"
 
 void ADS1299::initialize(int _DRDY, int _RST, int _CS, int _FREQ, boolean _isDaisy){
 	isDaisy = _isDaisy;
@@ -267,6 +269,19 @@ void ADS1299::updateChannelData(){
 		}else{
 			channelData[i] &= 0x00FFFFFF;
 		}
+		
+		//scale input over voltage range [0V, 3.6V]
+		if(i == 0){
+			float voltage = channelData[i];
+			Serial.print("Raw ");
+			Serial.println(channelData[i], HEX);
+			Serial.print("Raw ");
+			Serial.println(voltage, HEX);
+			voltage /= (pow(2,23));
+			voltage = voltage * 1.8 + 1.8;
+			Serial.print("Scaled ");
+			Serial.println(voltage);
+		}
 	}
 }
 
@@ -316,6 +331,7 @@ void ADS1299::RDATA() {				//  use in Stop Read Continuous mode when DRDY goes l
 		}else{
 			channelData[i] &= 0x00FFFFFF;
 		}
+		//Serial.println(channelData[i]);
 	}
 	
     
