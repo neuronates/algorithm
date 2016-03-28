@@ -1,5 +1,5 @@
 from multiprocessing import Process
-import spiTest
+#import spiTest
 import picamera
 from subprocess import call
 
@@ -15,12 +15,13 @@ with picamera.PiCamera() as camera:
 	
 	try:
 		time = 30
-		print 'start'
+#		print 'start'
 		#Initialize concurrent processes
-		p1 = Process(target = camera.wait_recording, args = (time,))
-		print 'before'
-		p2 = Process(target = spiTest.spiTestRun)#execfile("spiTest.py"))
-		print 'after'
+		camera.wait_recording(time)
+#		p1 = Process(target = camera.wait_recording, args = (time,))
+#		print 'before'
+#		p2 = Process(target = spiTest.spiTestRun)#execfile("spiTest.py"))
+#		print 'after'
 		camera.resolution = (800, 480)
 		camera.framerate = 30
 		camera.start_preview()
@@ -29,18 +30,18 @@ with picamera.PiCamera() as camera:
 		camera.wait_recording(time)
 		#Process(target = spiTest).start()
 		#Process(target = camera.wait_recording, args = (time)).start()
-		print 'wait recording'
+#		print 'wait recording'
 		#p1.start()
-		print 'done'
+#		print 'done'
 		#p2.start()
 		camera.stop_recording()
-		p2.terminate()	
-		print 'recording stopped'
+#		p2.terminate()	
+#		print 'recording stopped'
 	
 	except KeyboardInterrupt:
 		print 'Stopped by Keyboard'
 		camera.stop_recording()
-		p2.terminate()	
+#		p2.terminate()	
 conversion = "\"MP4Box -fps 30 -add " + nameh264 + " " + namemp4 + "\"" 
 print conversion
 convert_video = "MP4Box -fps 30 -add video_demo.h264 video_demo.mp4"
