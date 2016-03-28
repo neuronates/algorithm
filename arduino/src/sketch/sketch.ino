@@ -1,6 +1,3 @@
-#include <ADS1299.h>
-#include <Definitions.h>
-
 
 
 /*Developed by Joel Murphy and Conor Russomanno (Summer 2013)
