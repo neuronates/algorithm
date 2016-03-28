@@ -18,6 +18,7 @@ import atexit
 import serial
 import autocorrelation
 import epileptogenicity
+from multiprocessing import Process
 
 #if __name__ == '__main__':
 def spiTestRun():
@@ -56,10 +57,13 @@ def spiTestRun():
 
 	eegData = np.empty((samples_per_chan, len(chan)))
 	ser = serial.Serial('/dev/ttyAMA0', 115200)
-	window = 0
+	windowNum = 0
 	
 	while True:
-		window += 1
+		
+		windowNum += 1
+		p1 = Process(target = processData)
+		
 		for i in xrange(samples_per_chan):
 			for c in chan:
 				eegData[i,c] = ConvertVolts(ser.readline(), precision)
@@ -68,29 +72,25 @@ def spiTestRun():
  			# Print out results
  			print "--------------------------------------------"  
  			print("Voltage : {}V".format(eegData[i]))  
-			
-			res = autocorrelation.seizure(eegData)
-			autoFlags = np.ones(samples_per_chan, 1) * res
-			epiFlags = epileptogenicity(eegData)
-			finalFlags = combineFlags(autoFlags, epiFlags)
-			eegData = np.append(eegData, finalFlags)
-			saveWindow()
-			# Wait before repeating loop
-	 		time.sleep(delay)
+		
+		p1.start()
+
+	 	time.sleep(delay)
 	
-	def process():
-		res = autocorrelation.seizure(eegData)
+	def processData():
+		data = np.copy(eegData)
+		res = autocorrelation.seizure(data)
 		autoFlags = np.ones(samples_per_chan, 1) * res
-		epiFlags = epileptogenicity(eegData)
+		epiFlags = epileptogenicity(data)
 		finalFlags = combineFlags(autoFlags, epiFlags)
-		eegData = np.append(eegData, finalFlags)
-		saveWindow()
+		eegData = np.append(data, finalFlags)
+		saveWindow(data)
 	
 	def saveFile():
 		np.savetxt('out.txt', eegData, delimiter=',')
 		print "Stopped!\n"
-	def saveWindow():
-		np.savetxt('window_'+str(window)+'.txt', eegData, delimiter=',')
+	def saveWindow(data):
+		np.savetxt('window_'+str(windowNum)+'.txt', data, delimiter=',')
 
 	def combineFlags(autoFlags, epiFlags):
 		results = np.logical_or(autoFlags, epiFlags)
