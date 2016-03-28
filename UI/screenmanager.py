@@ -270,7 +270,7 @@ class ScreenManagerApp(App):
     
     def save(self, name, date):
 	f = open('patientData.txt','a')
-	f.write(name + ' ')
+	f.write(name + ',')
 	f.write(date + '\n')
 	f.close()
     def saveName(self,name):
