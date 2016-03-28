@@ -11,12 +11,8 @@
 #--------------------------------------
 
 #import spidev
-import sys
-sys.path.insert(0, '../detection/autocorrelation.py')
-sys.path.insert(0, '../detection/epileptogenicity.py')
 import autocorrelation
 import epileptogenicity
-
 import time
 import os
 import numpy as np
@@ -24,8 +20,6 @@ import atexit
 import serial
 from multiprocessing import Process
 
-
-#if __name__ == '__main__':
 def spiTestRun():
 	# Open SPI bus
 	'''
@@ -107,3 +101,5 @@ def spiTestRun():
 	atexit.register(saveFile)
 
 
+if __name__ == '__main__':
+	spiTestRun()
