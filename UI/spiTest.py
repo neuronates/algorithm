@@ -11,14 +11,19 @@
 #--------------------------------------
 
 #import spidev
+import sys
+sys.path.insert(0, '../detection/autocorrelation')
+sys.path.insert(0, '../detection/epileptogenicity')
+import autocorrelation
+import epileptogenicity
+
 import time
 import os
 import numpy as np
 import atexit
 import serial
-import autocorrelation
-import epileptogenicity
 from multiprocessing import Process
+
 
 #if __name__ == '__main__':
 def spiTestRun():
