@@ -5,7 +5,7 @@ from subprocess import call
 
 with open('choosePatient.txt','r') as f:
     data=f.read()
-name = data.split("\\s+")
+name = data.split()
 nameh264 = name[0] + ".h264"
 namemp4 = name[0] + ".mp4"
 print nameh264
@@ -17,7 +17,7 @@ with picamera.PiCamera() as camera:
 		time = 30
 #		print 'start'
 		#Initialize concurrent processes
-		camera.wait_recording(time)
+#		camera.wait_recording(time)
 #		p1 = Process(target = camera.wait_recording, args = (time,))
 #		print 'before'
 #		p2 = Process(target = spiTest.spiTestRun)#execfile("spiTest.py"))
