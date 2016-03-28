@@ -26,7 +26,7 @@ with picamera.PiCamera() as camera:
 		camera.framerate = 30
 		camera.start_preview()
 		camera.start_recording(nameh264)
-		p2.start()
+#		p2.start()
 		camera.wait_recording(time)
 		#Process(target = spiTest).start()
 		#Process(target = camera.wait_recording, args = (time)).start()
