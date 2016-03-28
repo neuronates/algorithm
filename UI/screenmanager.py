@@ -169,15 +169,6 @@ MyScreenManager:
 <SecondScreen>:
     name: 'Second'
     BoxLayout:
-#	Camera:
-#	    id: camera
-#	    resolution: (640,480)
-#	    play: True
-#        ToggleButton:
-#            text: 'Play'
-#            on_press: camera.play = not camera.play
-#            size_hint_y: None
-#            height: '48dp'
 	#Label:
 	    #text: 'Neonatal EEG Monitoring System'
 	BoxLayout:
@@ -189,10 +180,6 @@ MyScreenManager:
 	    	text: 'Run EEG System'
 	    	size_hint: .1,.1
 #                on_release: sys.execfile('spiTest.py')
-#            ToggleButton:
-#                text: 'Play'
-#                height: '48p'
-#                on_press: camera.play = not camera.play
 <FirstScreen>:
     name: 'First'
     FloatLayout:
@@ -229,21 +216,9 @@ MyScreenManager:
                 text: 'Next'
                 size_hint: .1, .1
                 on_press: app.save(name_input.text, date_input.text)
-               # on_release: execfile('./capture-file.sh') 
-                on_release: execfile("capture-file.py") #app.root.current = 'Second'
+                on_release: execfile("capture-file.py") 
                 on_release: app.root.current = 'Home'
 		#on_release: app.save(name_input.text, date_input.text)
-#    FloatLayout:
-#	BoxLayout:
-#	    Button:
-#		text: 'Home'
-#		size_hint: .1,.1
-#		on_release: app.root.current = 'Home'
- #  	    Button:
-#		text: 'Back'
-#		size_hint: .1,.1
-#		on_release: app.root.current = 'First'
-
 <ThirdScreen>:
     name: 'Third'
     FloatLayout:
@@ -263,17 +238,6 @@ MyScreenManager:
 <FourthScreen>:
     name: 'Fourth'
     FloatLayout:
-        #VideoPlayer:
-        #    id: video
-        #    source: 'video_demo.mp4'
-        #    size_hint: 1,0.5
-        #    pos: 0, self.height
-        #    play: False
-#        Image:
-#            source: 'testplot.png'
-#            size_hint: 1, 1
-#            allow_stretch: True
-#            keep_ratio: False
         BoxLayout:
             Button:
                 text: 'Home'
