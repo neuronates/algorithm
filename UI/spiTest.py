@@ -10,15 +10,19 @@
 #
 #--------------------------------------
 
-import spidev
+#import spidev
 import time
 import os
 import numpy as np
 import atexit
+import serial
+import autocorrelation
+import epileptogenicity
 
 #if __name__ == '__main__':
 def spiTestRun():
 	# Open SPI bus
+	'''
 	spi = spidev.SpiDev()
 	spi.open(0,0)
 	spi.max_speed_hz = 122000
@@ -31,6 +35,7 @@ def spiTestRun():
   		data = ((adc[1]&3) << 8) + adc[2]
  		# spi.xfer2([32, 0])
   		return data
+  	'''
 
 	# Function to convert data to voltage level,
 	# rounded to specified number of decimal places. 
@@ -43,30 +48,52 @@ def spiTestRun():
 	chan = [0, 1, 2, 3, 4, 5, 6, 7]
 	sampling_rate = 256
 	window_length = 30
-	num_samples = sampling_rate * window_length
+	samples_per_chan = sampling_rate * window_length
 	precision = 3
 	# Define delay between readings
 	#delay = (1.0/sampling_rate)
 	delay = 1
 
-	eegData = np.empty((sampling_rate * window_length,len(chan)))
-
-	while True:
+	eegData = np.empty((samples_per_chan, len(chan)))
+	ser = serial.Serial('/dev/ttyAMA0', 115200)
+	window = 0
 	
-		for i in xrange(num_samples):
-			eegData[i] = [ConvertVolts(ReadChannel(c), precision) for c in xrange(len(chan))]
-
+	while True:
+		window += 1
+		for i in xrange(samples_per_chan):
+			for c in chan:
+				eegData[i,c] = ConvertVolts(ser.readline(), precision)
+			
+			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
  			print "--------------------------------------------"  
  			print("Voltage : {}V".format(eegData[i]))  
-
+			
+			res = autocorrelation.seizure(eegData)
+			autoFlags = np.ones(samples_per_chan, 1) * res
+			epiFlags = epileptogenicity(eegData)
+			finalFlags = combineFlags(autoFlags, epiFlags)
+			eegData = np.append(eegData, finalFlags)
+			saveWindow()
 			# Wait before repeating loop
 	 		time.sleep(delay)
-
+	
+	def process():
+		res = autocorrelation.seizure(eegData)
+		autoFlags = np.ones(samples_per_chan, 1) * res
+		epiFlags = epileptogenicity(eegData)
+		finalFlags = combineFlags(autoFlags, epiFlags)
+		eegData = np.append(eegData, finalFlags)
+		saveWindow()
+	
 	def saveFile():
 		np.savetxt('out.txt', eegData, delimiter=',')
-		spi.close() 
 		print "Stopped!\n"
+	def saveWindow():
+		np.savetxt('window_'+str(window)+'.txt', eegData, delimiter=',')
+
+	def combineFlags(autoFlags, epiFlags):
+		results = np.logical_or(autoFlags, epiFlags)
 
 	import atexit
 	atexit.register(saveFile)
