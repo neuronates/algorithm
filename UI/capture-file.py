@@ -1,6 +1,7 @@
 from multiprocessing import Process
 import spiTest
 import picamera
+from subprocess import call
 
 with picamera.PiCamera() as camera:
 	
@@ -32,3 +33,5 @@ with picamera.PiCamera() as camera:
 		print 'Stopped by Keyboard'
 		camera.stop_recording()
 		p2.terminate()	
+convert_video = "MP4Box -fps 30 -add video_demo.h264 video_demo.mp4"
+call([convert_video], shell = True)
