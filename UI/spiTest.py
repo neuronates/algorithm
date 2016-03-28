@@ -61,6 +61,15 @@ def spiTestRun():
 	os.system("ino build -d ../arduino")
 	os.system("ino upload -d ../arduino")
 	
+	def processData():
+		data = np.copy(eegData)
+		res = autocorrelation.seizure(data)
+		autoFlags = np.ones(samples_per_chan, 1) * res
+		epiFlags = epileptogenicity(data)
+		finalFlags = combineFlags(autoFlags, epiFlags)
+		eegData = np.append(data, finalFlags)
+		saveWindow(data)
+	
 	while True:
 		
 		windowNum += 1
@@ -79,14 +88,7 @@ def spiTestRun():
 
 	 	time.sleep(delay)
 	
-	def processData():
-		data = np.copy(eegData)
-		res = autocorrelation.seizure(data)
-		autoFlags = np.ones(samples_per_chan, 1) * res
-		epiFlags = epileptogenicity(data)
-		finalFlags = combineFlags(autoFlags, epiFlags)
-		eegData = np.append(data, finalFlags)
-		saveWindow(data)
+
 	
 	def saveFile():
 		np.savetxt('out.txt', eegData, delimiter=',')
