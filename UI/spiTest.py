@@ -59,6 +59,9 @@ def spiTestRun():
 	ser = serial.Serial('/dev/ttyAMA0', 115200)
 	windowNum = 0
 	
+	os.system("ino build -d ../arduino")
+	os.system("ino upload -d ../arduino")
+	
 	while True:
 		
 		windowNum += 1
