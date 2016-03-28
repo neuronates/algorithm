@@ -12,8 +12,8 @@
 
 #import spidev
 import sys
-sys.path.insert(0, '../detection/autocorrelation')
-sys.path.insert(0, '../detection/epileptogenicity')
+sys.path.insert(0, '../detection/autocorrelation.py')
+sys.path.insert(0, '../detection/epileptogenicity.py')
 import autocorrelation
 import epileptogenicity
 
