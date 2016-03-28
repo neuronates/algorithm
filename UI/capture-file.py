@@ -8,13 +8,11 @@ with open('choosePatient.txt','r') as f:
 name = data.split()
 nameh264 = name[0] + ".h264"
 namemp4 = name[0] + ".mp4"
-print nameh264
-print namemp4
 
 with picamera.PiCamera() as camera:
 	
 	try:
-		time = 30
+		time = 5
 #		print 'start'
 		#Initialize concurrent processes
 #		camera.wait_recording(time)
@@ -42,7 +40,5 @@ with picamera.PiCamera() as camera:
 		print 'Stopped by Keyboard'
 		camera.stop_recording()
 #		p2.terminate()	
-conversion = "\"MP4Box -fps 30 -add " + nameh264 + " " + namemp4 + "\"" 
-print conversion
-convert_video = "MP4Box -fps 30 -add video_demo.h264 video_demo.mp4"
+convert_video = "MP4Box -fps 30 -add " + nameh264 + " " + namemp4 
 call([convert_video], shell = True)
