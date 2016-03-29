@@ -271,7 +271,7 @@ void ADS1299::updateChannelData(){
 		}
 		
 		Serial.println(channelData[i]);
-		//Serial.flush();
+		Serial.flush();
 	}
 }
 
