@@ -1,5 +1,5 @@
-#include <ADS1299.h>
-#include <Definitions.h>
+include <ADS1299.h>
+include <Definitions.h>
 
 /*Developed by Joel Murphy and Conor Russomanno (Summer 2013)
   This example uses the ADS1299 Arduino Library, a software bridge between the ADS1299 TI chip and 
