@@ -97,7 +97,8 @@ def spiTestRun():
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
  			print "--------------------------------------------"  
- 			print("Voltage : {}V".format(eegData[i]))  
+ 			print("Voltage : {}V".format(eegData[i]))
+ 			print i
 		
 		p1.start()
 
