@@ -90,7 +90,7 @@ def spiTestRun():
 				temp = ser.readline().strip('\0')
 				if(temp[0] == '-'):
 					temp = temp[1:]
-				while(len(temp) == 0 or temp == '-'):
+				while(len(temp) == 0 or temp == '-' or temp == ''):
 					print 'bad input'
 					print len(temp)
 					temp = ser.readline()
