@@ -269,7 +269,8 @@ void ADS1299::updateChannelData(){
 		}else{
 			channelData[i] &= 0x00FFFFFF;
 		}
-		Serial.write(channelData[i]);
+		Serial.write(1);
+		//Serial.write(channelData[i]);
 		Serial.flush();
 		//scale input over voltage range [0V, 3.6V]
 		/*if(i == 0){
