@@ -274,9 +274,9 @@ void ADS1299::updateChannelData(){
 		//scale input over voltage range [0V, 3.6V]
 		/*if(i == 0){
 			float voltage = channelData[i];
-			Serial.print("Raw ");
-			Serial.println(channelData[i], HEX);
-			Serial.print("Raw ");
+			//Serial.print("Raw ");
+			//Serial.println(channelData[i], HEX);
+			//Serial.print("Raw ");
 			Serial.println(voltage, HEX);
 			voltage /= (pow(2,23));
 			voltage = voltage * 1.8 + 1.8;
