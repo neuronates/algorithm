@@ -66,6 +66,7 @@ def spiTestRun():
 	# build and upload arduino code onto arduino uno
 	d = "/home/pi/algorithm/arduino"
 	#os.chdir(d)
+	check_call(["ino", "clean"],cwd=d)
 	check_call(["ino", "build"],cwd=d)
 	check_call(["ino", "upload"],cwd=d)
 		
