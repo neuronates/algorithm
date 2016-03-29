@@ -91,7 +91,7 @@ def spiTestRun():
 			for c in chan:
 				print i
 				print c
-				eegData[i,c] = ConvertVolts(int(ser.read(4), precision)
+				eegData[i,c] = ConvertVolts(int(ser.read(4)), precision)
 			
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
