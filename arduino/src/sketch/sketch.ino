@@ -43,7 +43,7 @@ void setup() {
   Serial.println("ADS1299-Arduino UNO Example 2"); 
   delay(2000);             
 
-  ADS.verbose = true;      // when verbose is true, there will be Serial feedback 
+  ADS.verbose = false;      // when verbose is true, there will be Serial feedback 
   ADS.RESET();             // send RESET command to default all registers
   ADS.SDATAC();            // exit Read Data Continuous mode to communicate with ADS
   ADS.RREGS(0x00,0x17);     // read all registers starting at ID and ending at CONFIG4
