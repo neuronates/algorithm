@@ -59,7 +59,7 @@ def spiTestRun():
 	delay = 1
 
 	eegData = np.empty((samples_per_chan, len(chan)))
-	ser = serial.Serial('/dev/ttyAMA0', 115200, timeout = 0)
+	ser = serial.Serial('/dev/ttyUSB0', 115200, timeout = 0)
 	windowNum = 0
 
 
