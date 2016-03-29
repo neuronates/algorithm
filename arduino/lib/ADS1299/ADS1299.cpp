@@ -270,7 +270,7 @@ void ADS1299::updateChannelData(){
 			channelData[i] &= 0x00FFFFFF;
 		}
 		
-		Serial.print(channelData[i]);
+		Serial.println(channelData[i]);
 		//Serial.flush();
 	}
 }
