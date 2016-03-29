@@ -88,6 +88,8 @@ def spiTestRun():
 			print i
 			for c in chan:
 				temp = ser.readline()
+				while(len(temp) == 0):
+					temp = ser.readline()
 				print temp
 				eegData[i,c] = ConvertVolts(int(temp), precision)
 			
