@@ -51,25 +51,25 @@ void setup() {
   ADS.RREG(CONFIG3);       // verify write
   ADS.RDATAC();            // enter Read Data Continuous mode
   
-  Serial.println("Press 'x' to begin test");    // ask for prompt
+  //Serial.println("Press 'x' to begin test");    // ask for prompt
 } // end of setup
 
 void loop(){
   
-  if (testing){
-    Serial.println("entering test loop");
+  //if (testing){
+    //Serial.println("entering test loop");
     ADS.START();                    // start sampling at the default rate
     thatTime = millis();            // timestamp
     ADStest(500);                   // go to testing routine and specify the number of samples to take
     thisTime = millis();            // timestamp
     ADS.STOP();                     // stop the sampling
     elapsedTime = thisTime - thatTime;
-    Serial.print("Elapsed Time ");Serial.println(elapsedTime);  // benchmark
-      Serial.print("Samples ");Serial.println(sampleCounter);   // 
+    //Serial.print("Elapsed Time ");Serial.println(elapsedTime);  // benchmark
+    //  Serial.print("Samples ");Serial.println(sampleCounter);   // 
     testing = false;                // reset testing flag
     sampleCounter = 0;              // reset counter
-    Serial.println("Press 'x' to begin test");  // ask for prompt
-  }// end of testing
+    //Serial.println("Press 'x' to begin test");  // ask for prompt
+  //}// end of testing
   
 } // end of loop
 
