@@ -269,9 +269,8 @@ void ADS1299::updateChannelData(){
 		}else{
 			channelData[i] &= 0x00FFFFFF;
 		}
-		byte * buf = &channelData[i];
-		Serial.write(buf, 4);
-		//Serial.write(channelData[i]);
+		
+		Serial.print(channelData[i]);
 		Serial.flush();
 	}
 }
