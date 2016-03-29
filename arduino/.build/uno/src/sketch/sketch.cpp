@@ -51,7 +51,7 @@ void setup() {
   Serial.println("ADS1299-Arduino UNO Example 2"); 
   delay(2000);             
 
-  ADS.verbose = true;      // when verbose is true, there will be Serial feedback 
+  ADS.verbose = false;      // when verbose is true, there will be Serial feedback 
   ADS.RESET();             // send RESET command to default all registers
   ADS.SDATAC();            // exit Read Data Continuous mode to communicate with ADS
   ADS.RREGS(0x00,0x17);     // read all registers starting at ID and ending at CONFIG4
@@ -59,25 +59,25 @@ void setup() {
   ADS.RREG(CONFIG3);       // verify write
   ADS.RDATAC();            // enter Read Data Continuous mode
   
-  Serial.println("Press 'x' to begin test");    // ask for prompt
+  //Serial.println("Press 'x' to begin test");    // ask for prompt
 } // end of setup
 
 void loop(){
   
-  if (testing){
-    Serial.println("entering test loop");
+  //if (testing){
+    //Serial.println("entering test loop");
     ADS.START();                    // start sampling at the default rate
     thatTime = millis();            // timestamp
     ADStest(500);                   // go to testing routine and specify the number of samples to take
     thisTime = millis();            // timestamp
     ADS.STOP();                     // stop the sampling
     elapsedTime = thisTime - thatTime;
-    Serial.print("Elapsed Time ");Serial.println(elapsedTime);  // benchmark
-      Serial.print("Samples ");Serial.println(sampleCounter);   // 
+    //Serial.print("Elapsed Time ");Serial.println(elapsedTime);  // benchmark
+    //  Serial.print("Samples ");Serial.println(sampleCounter);   // 
     testing = false;                // reset testing flag
     sampleCounter = 0;              // reset counter
-    Serial.println("Press 'x' to begin test");  // ask for prompt
-  }// end of testing
+    //Serial.println("Press 'x' to begin test");  // ask for prompt
+  //}// end of testing
   
 } // end of loop
 
