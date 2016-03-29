@@ -90,9 +90,9 @@ def spiTestRun():
 		
 		for i in xrange(samples_per_chan):
 			for c in chan:
-				print i
-				print c
-				eegData[i,c] = ConvertVolts(int(ser.readline()), precision)
+				temp = int(ser.readline())
+				print temp
+				eegData[i,c] = ConvertVolts(temp, precision)
 			
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
