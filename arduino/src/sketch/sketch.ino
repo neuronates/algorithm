@@ -40,7 +40,7 @@ void setup() {
   ADS.initialize(8,9,10,8,0); // (DRDY pin, RST pin, CS pin, SCK frequency in MHz);
 
   Serial.begin(115200);
-  Serial.println("ADS1299-Arduino UNO Example 2"); 
+  //Serial.println("ADS1299-Arduino UNO Example 2"); 
   delay(2000);             
 
   ADS.verbose = false;      // when verbose is true, there will be Serial feedback 
