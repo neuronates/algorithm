@@ -85,7 +85,6 @@ def spiTestRun():
 		p1 = Process(target = processData)
 		
 		for i in xrange(samples_per_chan):
-			print windowNum
 			print i
 			for c in chan:
 				temp = ser.readline()
