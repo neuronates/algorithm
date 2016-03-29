@@ -41,9 +41,6 @@ def spiTestRun():
 	# Function to convert data to voltage level,
 	# rounded to specified number of decimal places. 
 	def ConvertVolts(data,places):
-		print data
-		print type(data)
-		
 		volts = (data * 3.3)/float(1023)#2**24-1)
   		volts = round(volts,places)  
   		return volts
@@ -69,7 +66,7 @@ def spiTestRun():
 	check_call(["ino", "clean"],cwd=d)
 	check_call(["ino", "build"],cwd=d)
 	check_call(["ino", "upload"],cwd=d)
-		
+	time.sleep(10)
 #	os.system("ino build -d ~/algorithm/UI/arduino")
 #	os.system("ino upload -d ~/algorithm/UI/arduino")
 	
@@ -81,7 +78,7 @@ def spiTestRun():
 		finalFlags = combineFlags(autoFlags, epiFlags)
 		eegData = np.append(data, finalFlags)
 		saveWindow(data)
-	time.sleep(10)
+	
 	while True:
 		
 		windowNum += 1
@@ -90,9 +87,9 @@ def spiTestRun():
 		for i in xrange(samples_per_chan):
 			print i
 			for c in chan:
-				temp = int(ser.readline())
+				temp = ser.readline()
 				print temp
-				eegData[i,c] = ConvertVolts(temp, precision)
+				eegData[i,c] = ConvertVolts(int(temp), precision)
 			
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
