@@ -19,6 +19,7 @@ import numpy as np
 import atexit
 import serial
 from multiprocessing import Process
+from subprocess import check_call
 
 def spiTestRun():
 	# Open SPI bus
@@ -57,9 +58,16 @@ def spiTestRun():
 	eegData = np.empty((samples_per_chan, len(chan)))
 	ser = serial.Serial('/dev/ttyAMA0', 115200)
 	windowNum = 0
-	
-	os.system("ino build -d ../arduino")
-	os.system("ino upload -d ../arduino")
+
+
+	# build and upload arduino code onto arduino uno
+	d = "/home/pi/algorithm/arduino"
+	#os.chdir(d)
+	check_call(["ino", "build"],cwd=d)
+	check_call(["ino", "upload"],cwd=d)
+		
+#	os.system("ino build -d ~/algorithm/UI/arduino")
+#	os.system("ino upload -d ~/algorithm/UI/arduino")
 	
 	def processData():
 		data = np.copy(eegData)

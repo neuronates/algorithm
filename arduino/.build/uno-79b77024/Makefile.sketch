@@ -1,0 +1,14 @@
+
+
+
+
+
+.build/uno-79b77024/src/sketch/sketch.cpp : src/sketch/sketch.ino
+	@mkdir -p .build/uno-79b77024/src/sketch
+	@echo [93msrc/sketch/sketch.ino[0m
+	@/usr/local/bin/ino preproc -d /home/pi/algorithm/arduino -o $@ $^
+
+
+all : .build/uno-79b77024/src/sketch/sketch.cpp
+	@true
+
