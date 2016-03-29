@@ -81,7 +81,7 @@ def spiTestRun():
 		finalFlags = combineFlags(autoFlags, epiFlags)
 		eegData = np.append(data, finalFlags)
 		saveWindow(data)
-	
+	time.sleep(10)
 	while True:
 		
 		windowNum += 1
