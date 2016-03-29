@@ -81,10 +81,13 @@ def spiTestRun():
 	while True:
 		
 		windowNum += 1
+		print windowNum
 		p1 = Process(target = processData)
 		
 		for i in xrange(samples_per_chan):
 			for c in chan:
+				print i
+				print c
 				eegData[i,c] = ConvertVolts(ser.readline(), precision)
 			
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
