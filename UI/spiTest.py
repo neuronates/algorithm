@@ -85,10 +85,10 @@ def spiTestRun():
 	while True:
 		
 		windowNum += 1
-		print windowNum
 		p1 = Process(target = processData)
 		
 		for i in xrange(samples_per_chan):
+			print i
 			for c in chan:
 				temp = int(ser.readline())
 				print temp
@@ -98,7 +98,6 @@ def spiTestRun():
  			# Print out results
  			print "--------------------------------------------"  
  			print("Voltage : {}V".format(eegData[i]))
- 			print i
 		
 		p1.start()
 
@@ -107,10 +106,10 @@ def spiTestRun():
 
 	
 	def saveFile():
-		np.savetxt('out.txt', eegData, delimiter=',')
+		np.savetxt('data/out.txt', eegData, delimiter=',')
 		print "Stopped!\n"
 	def saveWindow(data):
-		np.savetxt('window_'+str(windowNum)+'.txt', data, delimiter=',')
+		np.savetxt('data/window_'+str(windowNum)+'.txt', data, delimiter=',')
 
 	def combineFlags(autoFlags, epiFlags):
 		results = np.logical_or(autoFlags, epiFlags)
