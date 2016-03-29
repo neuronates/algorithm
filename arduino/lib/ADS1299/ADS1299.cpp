@@ -269,21 +269,9 @@ void ADS1299::updateChannelData(){
 		}else{
 			channelData[i] &= 0x00FFFFFF;
 		}
-		Serial.print(1);
-		//Serial.write(channelData[i]);
+		
+		Serial.print(channelData[i]);
 		Serial.flush();
-		//scale input over voltage range [0V, 3.6V]
-		/*if(i == 0){
-			float voltage = channelData[i];
-			//Serial.print("Raw ");
-			//Serial.println(channelData[i], HEX);
-			//Serial.print("Raw ");
-			Serial.println(voltage, HEX);
-			voltage /= (pow(2,23));
-			voltage = voltage * 1.8 + 1.8;
-			Serial.print("Scaled ");
-			Serial.println(voltage);
-		}*/
 	}
 }
 
