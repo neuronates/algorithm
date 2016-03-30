@@ -71,10 +71,9 @@ def spiTestRun():
 		p1 = Process(target = processData)
 		
 		for i in xrange(samples_per_chan-1):
-			#print i
 			for c in chan:
-				temp = ser.readline().strip('\r\n')
-				temp = temp.strip('\x00')
+				temp = ser.readline().strip('\r\n')	#remove new line
+				temp = temp.strip('\x00')		#remove null bytes
 				#if(temp[0] == '-' and temp[1] == '-'):
 				#	temp = temp[1:]
 				#while(len(temp) == 0 or temp == '-' or temp == ''):
