@@ -87,13 +87,13 @@ def spiTestRun():
 		for i in xrange(samples_per_chan):
 			print i
 			for c in chan:
-				temp = ser.readline().strip('\0')
+				temp = ser.readline().strip()
 				if(temp[0] == '-' and temp[1] == '-'):
 					temp = temp[1:]
 				while(len(temp) == 0 or temp == '-' or temp == ''):
 					print 'bad input'
 					print len(temp)
-					temp = ser.readline().strip('\0')
+					temp = ser.readline().strip()
 					if(temp[0] == '-' and temp[1] == '-'):
 						temp = temp[1:]
 				print 'Length'
