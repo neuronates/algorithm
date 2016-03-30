@@ -22,21 +22,6 @@ from multiprocessing import Process
 from subprocess import check_call
 
 def spiTestRun():
-	# Open SPI bus
-	'''
-	spi = spidev.SpiDev()
-	spi.open(0,0)
-	spi.max_speed_hz = 122000
-	spi.mode = 0b01
-
-	# Function to read SPI data from MCP3008 chip
-	# Channel must be an integer 0-7
-	def ReadChannel(channel):
-  		adc = spi.xfer2([1,(8+channel)<<4,0])
-  		data = ((adc[1]&3) << 8) + adc[2]
- 		# spi.xfer2([32, 0])
-  		return data
-  	'''
 
 	# Function to convert data to voltage level,
 	# rounded to specified number of decimal places. 
@@ -88,24 +73,30 @@ def spiTestRun():
 			print i
 			for c in chan:
 				temp = ser.readline().strip()
+				temp = temp.strip('\0')
 				if(temp[0] == '-' and temp[1] == '-'):
 					temp = temp[1:]
 				while(len(temp) == 0 or temp == '-' or temp == ''):
 					print 'bad input'
 					print len(temp)
 					temp = ser.readline().strip()
+					temp = temp.rstrip('\0'))
 					if(temp[0] == '-' and temp[1] == '-'):
 						temp = temp[1:]
+				#temp = temp[1:]
+#				if(temp == '-' or temp == ''):
+#					temp = 0
+#					print 'bad input'
 				print 'Length'
 				print len(temp)
 				print 'Value'
 				print temp
-				eegData[i,c] = ConvertVolts(int(temp), precision)
+				eegData[i,c] = ConvertVolts(int(temp.strip('\0')), precision)
 			
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
- 			print "--------------------------------------------"  
- 			print("Voltage : {}V".format(eegData[i]))
+# 			print "--------------------------------------------"  
+# 			print("Voltage : {}V".format(eegData[i]))
 		
 		p1.start()
 
