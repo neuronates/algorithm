@@ -96,7 +96,7 @@ void ADStest(int numSamples){
     while(digitalRead(8)){            // watch the DRDY pin
       }
     ADS.updateChannelData();          // update the channelData array 
-    sampleCounter++;                  // increment sample counter for next time
+    //sampleCounter++;                  // increment sample counter for next time
   }
     return;
 }
