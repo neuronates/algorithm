@@ -91,6 +91,7 @@ def spiTestRun():
 				if(temp[0] == '-' and temp[1] == '-'):
 					temp = temp[1:]
 				while(len(temp) == 0 or temp == '-' or temp == ''):
+					time.sleep(2) # added to see whether this loop is ever entered
 					print 'bad input'
 					print len(temp)
 					temp = ser.readline().strip()
