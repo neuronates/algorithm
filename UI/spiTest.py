@@ -42,6 +42,7 @@ def spiTestRun():
 
 	eegData = np.empty((samples_per_chan, len(chan)))
 	ser = serial.Serial('/dev/ttyUSB0', 115200, timeout = 0)
+	ser.stopbits = 2
 	windowNum = 0
 
 
@@ -69,34 +70,34 @@ def spiTestRun():
 		windowNum += 1
 		p1 = Process(target = processData)
 		
-		for i in xrange(samples_per_chan):
-			print i
+		for i in xrange(samples_per_chan-1):
+			#print i
 			for c in chan:
-				temp = ser.readline().strip()
-				temp = temp.strip('\0')
-				if(temp[0] == '-' and temp[1] == '-'):
-					temp = temp[1:]
-				while(len(temp) == 0 or temp == '-' or temp == ''):
+				temp = ser.readline().strip('\r\n')
+				temp = temp.strip('\x00')
+				#if(temp[0] == '-' and temp[1] == '-'):
+				#	temp = temp[1:]
+				#while(len(temp) == 0 or temp == '-' or temp == ''):
 					
-					print 'bad input'
-					print len(temp)
-					temp = ser.readline().strip()
-					temp = temp.rstrip('\0'))
-					if(temp[0] == '-' and temp[1] == '-'):
-						temp = temp[1:]
-<<<<<<< HEAD
+				#	print 'bad input'
+				#	print len(temp)
+				#	temp = ser.readline().strip()
+				#	temp = temp.rstrip('\0')
+				#	if(temp[0] == '-' and temp[1] == '-'):
+				#		temp = temp[1:]
 				#temp = temp[1:]
 #				if(temp == '-' or temp == ''):
 #					temp = 0
 #					print 'bad input'
-=======
-					time.sleep(2) # added to see whether this loop is ever entered
->>>>>>> 5a82f4389fe77d91e23cb8ee354d7863381f6c70
+				#time.sleep(2) # added to see whether this loop is ever entered
+				print i
 				print 'Length'
 				print len(temp)
 				print 'Value'
 				print temp
-				eegData[i,c] = ConvertVolts(int(temp.strip('\0')), precision)
+				print '\n'
+			#eegData[i,1] = ConvertVolts(1, precision)
+			eegData[i,c] = ConvertVolts(int(temp), precision)
 			
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
