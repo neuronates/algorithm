@@ -88,7 +88,7 @@ def spiTestRun():
 			print i
 			for c in chan:
 				temp = ser.readline().strip('\0')
-				if(temp[0] == '-'):
+				if(temp[0] == '-' and temp[1] == '-'):
 					temp = temp[1:]
 				while(len(temp) == 0 or temp == '-' or temp == ''):
 					print 'bad input'
