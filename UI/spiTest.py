@@ -55,7 +55,8 @@ def spiTestRun():
 	time.sleep(10)
 #	os.system("ino build -d ~/algorithm/UI/arduino")
 #	os.system("ino upload -d ~/algorithm/UI/arduino")
-	
+
+		
 	def processData(eeg):
 		data = np.copy(eeg)
 		print data.shape
@@ -66,7 +67,8 @@ def spiTestRun():
 		epiFlags[epiRes] = 1
 		finalFlags = np.logical_or(autoFlags, epiFlags)#combineFlags(autoFlags, epiFlags)
 		data = np.append(data, finalFlags)
-		saveWindow(data)
+		np.savetxt('data/window_'+str(windowNum)+'.txt', data, delimiter=',')
+		#saveWindow(data)
 	
 	while True:
 		
@@ -137,7 +139,8 @@ def spiTestRun():
 	def saveFile():
 		np.savetxt('data/out.txt', eegData, delimiter=',')
 		print "Stopped!\n"
-	def saveWindow(data):
+	
+	def saveWindow():
 		np.savetxt('data/window_'+str(windowNum)+'.txt', data, delimiter=',')
 
 	def combineFlags(autoFlags, epiFlags):
