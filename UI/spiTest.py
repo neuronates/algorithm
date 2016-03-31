@@ -66,7 +66,7 @@ def spiTestRun():
 		epiFlags = np.zeros((data.shape[0], 1))
 		epiFlags[epiRes] = 1
 		finalFlags = np.logical_or(autoFlags, epiFlags)#combineFlags(autoFlags, epiFlags)
-		data = np.append(data, finalFlags)
+		data = np.append(data, finalFlags, axis = 1)
 		print data.shape
 		np.savetxt('data/window_'+str(windowNum)+'.txt', data, delimiter=',')
 		#saveWindow(data)
