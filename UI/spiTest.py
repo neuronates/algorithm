@@ -57,11 +57,13 @@ def spiTestRun():
 #	os.system("ino upload -d ~/algorithm/UI/arduino")
 	
 	def processData(eeg):
-		data = np.copy(eeg[0])
+		data = np.copy(eeg)
 		print data.shape
 		res = autocorrelation.seizure(data)
 		autoFlags = np.ones((data.shape[0], 1)) * res
-		epiFlags = epileptogenicity.seizure(data)
+		epiRes = epileptogenicity.seizure(data)[0]
+		epiFlags = np.zeros((data.shape[0], 1))
+		epiFlags[epiRes] = 1
 		finalFlags = np.logical_or(autoFlags, epiFlags)#combineFlags(autoFlags, epiFlags)
 		data = np.append(data, finalFlags)
 		saveWindow(data)
