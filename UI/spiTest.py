@@ -38,7 +38,7 @@ def spiTestRun():
 	precision = 3
 	# Define delay between readings
 	#delay = (1.0/sampling_rate)
-	delay = 1
+	delay = 0
 
 	eegData = np.empty((samples_per_chan, len(chan)))
 	ser = serial.Serial('/dev/ttyUSB0', 115200, timeout = 0)
@@ -56,24 +56,46 @@ def spiTestRun():
 #	os.system("ino build -d ~/algorithm/UI/arduino")
 #	os.system("ino upload -d ~/algorithm/UI/arduino")
 	
-	def processData():
-		data = np.copy(eegData)
+	def processData(eeg):
+		data = np.copy(eeg[0])
+		print data.shape
 		res = autocorrelation.seizure(data)
-		autoFlags = np.ones(samples_per_chan, 1) * res
-		epiFlags = epileptogenicity(data)
-		finalFlags = combineFlags(autoFlags, epiFlags)
-		eegData = np.append(data, finalFlags)
+		autoFlags = np.ones((data.shape[0], 1)) * res
+		epiFlags = epileptogenicity.seizure(data)
+		finalFlags = np.logical_or(autoFlags, epiFlags)#combineFlags(autoFlags, epiFlags)
+		data = np.append(data, finalFlags)
 		saveWindow(data)
 	
 	while True:
 		
 		windowNum += 1
-		p1 = Process(target = processData)
+		#p1 = Process(target = processData)
 		
 		for i in xrange(samples_per_chan-1):
 			for c in chan:
-				temp = ser.readline().strip('\r\n')	#remove new line
+				temp = ser.readline()#.splitlines()[0]
+				#temp = ser.readline().strip('\r\n')	#remove new line
+				#temp = temp.splitlines()[0]
+#				if(temp[0] == '-' and temp[1] == '-'):
+#					temp = temp[1:]
+#				if(temp == '-' or temp == ''):
+#					print 'bad input'
+#					time.delay(2)
+#					temp = temp.strip('-')
+#					temp = temp.strip('')
+				temp = temp.strip('\r\n')
 				temp = temp.strip('\x00')		#remove null bytes
+				flag = True
+				while(flag):
+					try:
+						temp = int(temp)
+						flag = False
+					except ValueError:
+#					print '======================================\n\n\n\n'
+					#time.sleep(2)
+					
+						temp = ser.readline()	
+				test = temp
 				#if(temp[0] == '-' and temp[1] == '-'):
 				#	temp = temp[1:]
 				#while(len(temp) == 0 or temp == '-' or temp == ''):
@@ -89,20 +111,21 @@ def spiTestRun():
 #					temp = 0
 #					print 'bad input'
 				#time.sleep(2) # added to see whether this loop is ever entered
-				print i
-				print 'Length'
-				print len(temp)
-				print 'Value'
-				print temp
-				print '\n'
+#				print i
+			#	print 'Length'
+			#	print len(temp)
+#				print 'Value'
+#				print temp
+#				print '\n'
 			#eegData[i,1] = ConvertVolts(1, precision)
-			eegData[i,c] = ConvertVolts(int(temp), precision)
+			eegData[i,c] = ConvertVolts(int(test), precision)
 			
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
 # 			print "--------------------------------------------"  
 # 			print("Voltage : {}V".format(eegData[i]))
 		
+		p1 = Process(target = processData, args = (eegData,))
 		p1.start()
 
 	 	time.sleep(delay)
