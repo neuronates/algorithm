@@ -57,7 +57,8 @@ class ThirdScreen(Screen):
 	# create scrolling for viewing patient data
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
-        for i in range(num_lines):
+        #updated the for loop range
+        for i in range(sum(1 for line in open('patientData.txt'))):
             btn = Button(text=data[i],size_hint_y=None,height=40)
             btn.bind(on_release=partial(self.saveName,data[i]))
             layout.add_widget(btn)
