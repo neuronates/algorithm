@@ -49,17 +49,17 @@ def spiTestRun():
 	# build and upload arduino code onto arduino uno
 	d = "/home/pi/algorithm/arduino"
 	#os.chdir(d)
-	check_call(["ino", "clean"],cwd=d)
-	check_call(["ino", "build"],cwd=d)
+	#check_call(["ino", "clean"],cwd=d)
+	#check_call(["ino", "build"],cwd=d)
 	check_call(["ino", "upload"],cwd=d)
-	time.sleep(10)
+	time.sleep(8)
 #	os.system("ino build -d ~/algorithm/UI/arduino")
 #	os.system("ino upload -d ~/algorithm/UI/arduino")
 
 		
 	def processData(eeg):
 		data = np.copy(eeg)
-		print data.shape
+		#print data.shape
 		res = autocorrelation.seizure(data)
 		autoFlags = np.ones((data.shape[0], 1)) * res
 		epiRes = epileptogenicity.seizure(data)[0]
@@ -67,7 +67,7 @@ def spiTestRun():
 		epiFlags[epiRes] = 1
 		finalFlags = np.logical_or(autoFlags, epiFlags)#combineFlags(autoFlags, epiFlags)
 		data = np.append(data, finalFlags, axis = 1)
-		print data.shape
+		print windowNum
 		np.savetxt('data/window_'+str(windowNum)+'.txt', data, delimiter=',')
 		#saveWindow(data)
 	

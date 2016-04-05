@@ -1,21 +1,25 @@
 from multiprocessing import Process
-#import spiTest
+import spiTest
 import picamera
 from subprocess import call
 
-with open('choosePatient.txt','r') as f:
+with open('patientData.txt','r') as f:
     data=f.read()
-name = data.split()
-nameh264 = name[0] + ".h264"
-namemp4 = name[0] + ".mp4"
+name = data.split('\n')
+print name
+if(name[-1] == ''):
+	name[-1] = 'testName'
+nameh264 = name[-1] + ".h264"
+namemp4 = name[-1] + ".mp4"
+
 
 with picamera.PiCamera() as camera:
 	
 	try:
-		time = 5
+		time = 100
 		print 'start'
 		#Initialize concurrent processes
-		camera.wait_recording(time)
+#		camera.wait_recording(time)
 		p1 = Process(target = camera.wait_recording, args = (time,))
 		print 'before'
 		p2 = Process(target = spiTest.spiTestRun)#execfile("spiTest.py"))
@@ -25,13 +29,13 @@ with picamera.PiCamera() as camera:
 		camera.start_preview()
 		camera.start_recording(nameh264)
 		p2.start()
-		#camera.wait_recording(time)
-		Process(target = spiTest).start()
-		Process(target = camera.wait_recording, args = (time)).start()
-		print 'wait recording'
-		p1.start()
-		print 'done'
-		p2.start()
+		camera.wait_recording(time)
+		#Process(target = spiTest).start()
+		##Process(target = camera.wait_recording, args = (time,)).start()
+		#print 'wait recording'
+		#print type(spiTest.spiTestRun)
+		#p1.start()
+		#p2.start()
 		camera.stop_recording()
 		p2.terminate()	
 		print 'recording stopped'
