@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #--------------------------------------   
 # This script reads data from a 
 # MCP3008 ADC device using the SPI bus.
