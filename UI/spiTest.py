@@ -26,7 +26,7 @@ def spiTestRun():
 	# Function to convert data to voltage level,
 	# rounded to specified number of decimal places. 
 	def ConvertVolts(data,places):
-		volts = (data * 3.3)/float(1023)#2**24-1)
+		volts = (data * 3.3)/(2**24-1)#float(1023)
   		volts = round(volts,places)  
   		return volts
   
@@ -122,8 +122,8 @@ def spiTestRun():
 #				print 'Value'
 #				print temp
 #				print '\n'
-			#eegData[i,1] = ConvertVolts(1, precision)
-			eegData[i,c] = ConvertVolts(int(test), precision)
+				#eegData[i,1] = ConvertVolts(1, precision)
+				eegData[i,c] = ConvertVolts(int(test), precision)
 			
 			#eegData[i] = [ConvertVolts(eegData[c]) for c in xrange(len(chan))]
  			# Print out results
