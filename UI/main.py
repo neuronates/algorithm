@@ -143,7 +143,8 @@ class MyScreenManager(ScreenManager):
 
 load_screen = Builder.load_string('''
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
-MyScreenManager:
+ScreenManager:
+    id: 'MyScreenManager'
     transition: FadeTransition()
     HomeScreen:
     SecondScreen:
@@ -184,7 +185,7 @@ MyScreenManager:
             Button:
                 text: 'Review Data'
                 size_hint: .1, .1
-                on_press: app.makeGrid(app.root.SecondScreen)
+                on_press: app.makeGrid(app.root.ThirdScreen)
                 on_release: app.root.current = 'Third'
 <SecondScreen>:
     name: 'Second'
