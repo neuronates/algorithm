@@ -185,7 +185,7 @@ ScreenManager:
             Button:
                 text: 'Review Data'
                 size_hint: .1, .1
-                on_press: app.makeGrid(app.root.get_Screen(Third))
+                on_press: app.makeGrid(app.root.get_screen(Third))
                 on_release: app.root.current = 'Third'
 <SecondScreen>:
     name: 'Second'
