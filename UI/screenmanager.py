@@ -65,7 +65,8 @@ class ThirdScreen(Screen):
         root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
         root.add_widget(layout)
         self.add_widget(root)
-    def saveName(self,name, *args):
+    def saveName(self,name,btn *args):
+        btn.background_color = [0,1,0,1]
         f = open('choosePatient.txt','w')
         f.write(name + '\n')
         f.close()
@@ -274,11 +275,11 @@ class ScreenManagerApp(App):
 	f.write(name + ',')
 	f.write(date + '\n')
 	f.close()
-    def saveName(self,name,btn):
-        btn.background_color = [0,1,0,1]
-        f = open('choosePatient.txt','w')
-        f.write(name)
-        f.close()
+#    def saveName(self,name,btn):
+#        btn.background_color = [0,1,0,1]
+#        f = open('choosePatient.txt','w')
+#        f.write(name)
+#        f.close()
         #btn.background_color = [0,1,0,1]
 
 ScreenManagerApp().run()
