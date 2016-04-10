@@ -65,8 +65,11 @@ class ThirdScreen(Screen):
         root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
         root.add_widget(layout)
         self.add_widget(root)
-    def saveName(self,name,btn *args):
-        btn.background_color = [0,1,0,1]
+    def saveName(self,name,btn, *args):
+        if btn.background_color == [0,1,0,1]:
+            btn.background_color = [1,1,1,1]
+        else:
+            btn.background_color = [0,1,0,1]
         f = open('choosePatient.txt','w')
         f.write(name + '\n')
         f.close()
