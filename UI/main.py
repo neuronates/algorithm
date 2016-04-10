@@ -8,7 +8,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
-#from kivy.uix.camera import Camera
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.dropdown import DropDown
@@ -17,7 +16,6 @@ from numpy import *
 from functools import partial
 import matplotlib
 matplotlib.use('Agg')
-#from pylab import *
 import pylab as pl
 from kivy.garden.graph import Graph, LinePlot
 from kivy.uix.widget import Widget
@@ -169,6 +167,7 @@ MyScreenManager:
             Button:
                 text: 'Review Data'
                 size_hint: .1, .1
+                on_press: app.makeGrid('Third')
                 on_release: app.root.current = 'Third'
 <SecondScreen>:
     name: 'Second'
@@ -282,5 +281,37 @@ class ScreenManagerApp(App):
 #        f.write(name)
 #        f.close()
         #btn.background_color = [0,1,0,1]
+        
+    def makeGrid(self,ThirdScreen)
+#    def __init__(self, **kwargs):
+    	#get all patients stored in the file
+	with open('patientData.txt','r') as f:
+	    data=f.read()
+	data = data.splitlines()
+	num_lines = sum(1 for line in open('patientData.txt'))
+
+        super(ThirdScreen, self).__init__(**kwargs)
+
+	# create scrolling for viewing patient data
+        layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
+        layout.bind(minimum_height=layout.setter('height'))
+        #updated the for loop range
+        for i in range(sum(1 for line in open('patientData.txt'))):
+            btn = Button(text=data[i],size_hint_y=None,height=40)#,background_color=[1,0,0,1])
+            btn.bind(on_release=partial(self.saveName,data[i],btn))
+            layout.add_widget(btn)
+        root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
+        root.add_widget(layout)
+        self.add_widget(root)
+    def saveName(self,name,btn, *args):
+        if btn.background_color == [0,1,0,1]:
+            btn.background_color = [1,1,1,1]
+        else:
+            btn.background_color = [0,1,0,1]
+        f = open('choosePatient.txt','w')
+        f.write(name + '\n')
+        f.close()
+
+
 
 ScreenManagerApp().run()
