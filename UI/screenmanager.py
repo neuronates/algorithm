@@ -23,18 +23,6 @@ import numpy as np
 import math
 from kivy.core.window import Window
 
-#get data for patient
-dataMatrix1 = genfromtxt('DemoEEGFile.txt')
-x = dataMatrix1[:,0]
-x = x - 5.539
-y = dataMatrix1[:,1]
-
-xmin = math.trunc(x[0])
-ymin = math.trunc(min(y))#math.trunc(y[0])
-xmax = xmin+1
-xGlobalmax = math.trunc(x[len(x)-1])
-ymax = math.trunc(max(y))#math.trunc(y[len(y)-1])
-
 class HomeScreen(Screen):
     pass
 class FirstScreen(Screen):
@@ -43,101 +31,70 @@ class SecondScreen(Screen):
     pass
 class ThirdScreen(Screen):
     pass
-#    def __init__(self, **kwargs):
-#    	#get all patients stored in the file
-#	with open('patientData.txt','r') as f:
-#	    data=f.read()
-#	data = data.splitlines()
-#	num_lines = sum(1 for line in open('patientData.txt'))
-	
-	
- #       super(ThirdScreen, self).__init__(**kwargs)
-#
-#	# create scrolling for viewing patient data
- #       layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
-  #      layout.bind(minimum_height=layout.setter('height'))
-        #updated the for loop range
-#        for i in range(sum(1 for line in open('patientData.txt'))):
- #           btn = Button(text=data[i],size_hint_y=None,height=40)#,background_color=[1,0,0,1])
-#            btn.bind(on_release=partial(self.saveName,data[i],btn))
-#            layout.add_widget(btn)
-#        root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
-#        root.add_widget(layout)
- #       self.add_widget(root)
- #   def saveName(self,name,btn, *args):
-#        if btn.background_color == [0,1,0,1]:
-#            btn.background_color = [1,1,1,1]
-#        else:
-#            btn.background_color = [0,1,0,1]
-#        f = open('choosePatient.txt','w')
-#        f.write(name + '\n')
-#        f.close()
-
-
 class FourthScreen(Screen):
     pass
-    def __init__(self, **kwargs):
-        super(FourthScreen, self).__init__(**kwargs)
+#    def __init__(self, **kwargs):
+#        super(FourthScreen, self).__init__(**kwargs)
 
 	# create buttons
-        btnRight = Button(text='Scroll', size_hint=(.05,1),pos_hint={'x':0.45})#,'y':0})
-        btnLeft = Button(text='Scroll', size_hint=(.05,1),pos_hint={'left':1})			
-        self.add_widget(btnRight)
-        self.add_widget(btnLeft)
+#        btnRight = Button(text='Scroll', size_hint=(.05,1),pos_hint={'x':0.45})#,'y':0})
+#        btnLeft = Button(text='Scroll', size_hint=(.05,1),pos_hint={'left':1})			
+#        self.add_widget(btnRight)
+#        self.add_widget(btnLeft)
         
 	# create graph
-        graph = Graph()
-        plot = LinePlot(mode='line_strip',color=[1,0,0,1])
-        plot.points = [(x[i],y[i]) for i in xrange(len(x))]
-        graph.add_plot(plot)
-        graph.x_ticks_major=.5
-        graph.xmin=xmin
-        graph.xmax=xmax
-        graph.ymin=ymin
-        graph.ymax=ymax
-        graph.y_ticks_major=10
-        graph.xlabel='Time (min)'
-        graph.ylabel='Brain Wave Amplitude (mV)'
-        graph.y_grid = True
-        graph.x_grid = True
-        graph.size_hint=(0.4,0.9)
-        graph.x_grid_label=True
-        graph.y_grid_label=True
+ #       graph = Graph()
+#        plot = LinePlot(mode='line_strip',color=[1,0,0,1])
+#        plot.points = [(x[i],y[i]) for i in xrange(len(x))]
+#        graph.add_plot(plot)
+#        graph.x_ticks_major=.5
+#        graph.xmin=xmin
+#        graph.xmax=xmax
+#        graph.ymin=ymin
+#        graph.ymax=ymax
+#        graph.y_ticks_major=10
+#        graph.xlabel='Time (min)'
+#        graph.ylabel='Brain Wave Amplitude (mV)'
+#        graph.y_grid = True
+#        graph.x_grid = True
+#        graph.size_hint=(0.4,0.9)
+#        graph.x_grid_label=True
+#        graph.y_grid_label=True
 
         # create video player
-        video = VideoPlayer(source='Momona.mp4')
-        video.play=False
-        video.size_hint=(0.5,0.9)
-        video.pos_hint={'right':1,'top':1}       
+#        video = VideoPlayer(source='Momona.mp4')
+#        video.play=False
+#        video.size_hint=(0.5,0.9)
+#        video.pos_hint={'right':1,'top':1}       
 
-        graph.pos_hint={'x':0.05,'top':1}
-        def moveRight(obj):
-	    global xmin
-            global xmax
-            global xGlobalmax
-            xmin=xmin+.5
-            xmax=xmax+.5
-            graph.xmin=xmin
-            graph.xmax=xmax
+#        graph.pos_hint={'x':0.05,'top':1}
+#        def moveRight(obj):
+#	    global xmin
+#            global xmax
+#            global xGlobalmax
+#            xmin=xmin+.5
+#            xmax=xmax+.5
+#            graph.xmin=xmin
+#            graph.xmax=xmax
             
-            percent = 1-(xGlobalmax-xmin)/xGlobalmax
-            video.seek(percent)
+#            percent = 1-(xGlobalmax-xmin)/xGlobalmax
+#            video.seek(percent)
 
-        btnRight.bind(on_release=moveRight)
-        def moveLeft(obj):
-            global xmin
-            global xmax
-            global xGlobalmax
-            xmin=xmin-.5
-            xmax=xmax-.5
-            graph.xmin=xmin
-            graph.xmax=xmax
+#        btnRight.bind(on_release=moveRight)
+#        def moveLeft(obj):
+#            global xmin
+#            global xmax
+#            global xGlobalmax
+#            xmin=xmin-.5
+#            xmax=xmax-.5
+#            graph.xmin=xmin
+#            graph.xmax=xmax
 
-            percent = 1-(xGlobalmax-xmin)/xGlobalmax
-            video.seek(percent)
-        btnLeft.bind(on_release=moveLeft)
-        self.add_widget(graph)
-        self.add_widget(video)
+#            percent = 1-(xGlobalmax-xmin)/xGlobalmax
+#            video.seek(percent)
+#        btnLeft.bind(on_release=moveLeft)
+#        self.add_widget(graph)
+#        self.add_widget(video)
 class MyScreenManager(ScreenManager):
     pass
 
@@ -292,8 +249,6 @@ class ScreenManagerApp(App):
 	data = data.splitlines()
 	num_lines = sum(1 for line in open('patientData.txt'))
 
-#        super(ThirdScreen, self).__init__(**kwargs)
-
 	# create scrolling for viewing patient data
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
@@ -313,6 +268,84 @@ class ScreenManagerApp(App):
         f = open('choosePatient.txt','w')
         f.write(name + '\n')
         f.close()
+        
+     def playVideo(self,FourthScreen):
+	#get data for patient
+	with open('choosePatient.txt','r') as f:
+      	    data=f.read()
+      	data = data.split(',')
+      	patientName = data[0]
+      	fileName = patientName + ".mp4"
+	
+	dataMatrix1 = genfromtxt('DemoEEGFile.txt')
+	x = dataMatrix1[:,0]
+	x = x - 5.539
+	y = dataMatrix1[:,1]
+	
+	xmin = math.trunc(x[0])
+	ymin = math.trunc(min(y))#math.trunc(y[0])
+	xmax = xmin+1
+	xGlobalmax = math.trunc(x[len(x)-1])
+	ymax = math.trunc(max(y))#math.trunc(y[len(y)-1])
+	# create buttons
+        btnRight = Button(text='Scroll', size_hint=(.05,1),pos_hint={'x':0.45})#,'y':0})
+        btnLeft = Button(text='Scroll', size_hint=(.05,1),pos_hint={'left':1})			
+        self.add_widget(btnRight)
+        self.add_widget(btnLeft)
+        
+	# create graph
+        graph = Graph()
+        plot = LinePlot(mode='line_strip',color=[1,0,0,1])
+        plot.points = [(x[i],y[i]) for i in xrange(len(x))]
+        graph.add_plot(plot)
+        graph.x_ticks_major=.5
+        graph.xmin=xmin
+        graph.xmax=xmax
+        graph.ymin=ymin
+        graph.ymax=ymax
+        graph.y_ticks_major=10
+        graph.xlabel='Time (min)'
+        graph.ylabel='Brain Wave Amplitude (mV)'
+        graph.y_grid = True
+        graph.x_grid = True
+        graph.size_hint=(0.4,0.9)
+        graph.x_grid_label=True
+        graph.y_grid_label=True
+
+        # create video player
+        video = VideoPlayer(source=fileName)
+        video.play=False
+        video.size_hint=(0.5,0.9)
+        video.pos_hint={'right':1,'top':1}       
+
+        graph.pos_hint={'x':0.05,'top':1}
+        def moveRight(obj):
+	    global xmin
+            global xmax
+            global xGlobalmax
+            xmin=xmin+.5
+            xmax=xmax+.5
+            graph.xmin=xmin
+            graph.xmax=xmax
+            
+            percent = 1-(xGlobalmax-xmin)/xGlobalmax
+            video.seek(percent)
+
+        btnRight.bind(on_release=moveRight)
+        def moveLeft(obj):
+            global xmin
+            global xmax
+            global xGlobalmax
+            xmin=xmin-.5
+            xmax=xmax-.5
+            graph.xmin=xmin
+            graph.xmax=xmax
+
+            percent = 1-(xGlobalmax-xmin)/xGlobalmax
+            video.seek(percent)
+        btnLeft.bind(on_release=moveLeft)
+        self.add_widget(graph)
+        self.add_widget(video)
 
 
 
