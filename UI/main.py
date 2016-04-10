@@ -150,6 +150,22 @@ MyScreenManager:
     FirstScreen:
     ThirdScreen:
     FourthScreen:
+<ThirdScreen>:
+    name: 'Third'
+    FloatLayout:
+	BoxLayout:
+	    Button:
+    		text: 'Home'
+    		size_hint: .1, .1
+    		on_release: app.root.current = 'Home'
+	    Button:
+    		text: 'Back'
+    		size_hint: .1, .1
+    		on_release: app.root.current = 'Home'
+	    Button:
+    		text: 'Next'
+    		size_hint: .1, .1
+    		on_release: app.root.current = 'Fourth'
 <HomeScreen>:
     name: 'Home'
     FloatLayout:
@@ -222,22 +238,6 @@ MyScreenManager:
                 on_release: execfile("capture-file.py") 
                 on_release: app.root.current = 'Home'
 		#on_release: app.save(name_input.text, date_input.text)
-<ThirdScreen>:
-    name: 'Third'
-    FloatLayout:
-	BoxLayout:
-	    Button:
-    		text: 'Home'
-    		size_hint: .1, .1
-    		on_release: app.root.current = 'Home'
-	    Button:
-    		text: 'Back'
-    		size_hint: .1, .1
-    		on_release: app.root.current = 'Home'
-	    Button:
-    		text: 'Next'
-    		size_hint: .1, .1
-    		on_release: app.root.current = 'Fourth'
 <FourthScreen>:
     name: 'Fourth'
     FloatLayout:
