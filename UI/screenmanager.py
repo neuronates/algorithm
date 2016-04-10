@@ -123,6 +123,7 @@ ScreenManager:
 	    Button:
     		text: 'Next'
     		size_hint: .1, .1
+    		on_press: app.playVide(app.root.get_screen('Fourth'))
     		on_release: app.root.current = 'Fourth'
 <HomeScreen>:
     name: 'Home'
@@ -269,7 +270,7 @@ class ScreenManagerApp(App):
         f.write(name + '\n')
         f.close()
         
-     def playVideo(self,FourthScreen):
+    def playVideo(self,FourthScreen):
 	#get data for patient
 	with open('choosePatient.txt','r') as f:
       	    data=f.read()
