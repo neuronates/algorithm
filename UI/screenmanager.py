@@ -163,7 +163,7 @@ ScreenManager:
     name: 'First'
     FloatLayout:
 	Label: 
-		text: 'Patient Name'
+		text: 'Patient Name (ex. MomonaYamagami)'
 		pos_hint: {'x':0.2,'y':0.6}
 		size_hint: .1,.1
 	TextInput:
@@ -172,7 +172,7 @@ ScreenManager:
 		size_hint: .3,.1
 		pos_hint: {'x':0.5,'y':0.6}
 	Label:
-		text: 'Date'
+		text: 'Date (ex. 03.28.2016)'
 		pos_hint: {'x':0.2,'y':0.8}
 		size_hint: .1,.1
 	TextInput:
@@ -232,8 +232,8 @@ class ScreenManagerApp(App):
     
     def save(self, name, date):
 	f = open('patientData.txt','a')
-	f.write(name + ',')
-	f.write(date + '\n')
+	f.write('\n' + name + ',')
+	f.write(date)
 	f.close()
 #    def saveName(self,name,btn):
 #        btn.background_color = [0,1,0,1]
@@ -267,7 +267,7 @@ class ScreenManagerApp(App):
         else:
             btn.background_color = [0,1,0,1]
         f = open('choosePatient.txt','w')
-        f.write(name + '\n')
+        f.write('\n'+ name)
         f.close()
         
     def playVideo(self,FourthScreen):
