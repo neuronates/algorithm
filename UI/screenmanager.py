@@ -25,13 +25,6 @@ import numpy as np
 import math
 from kivy.core.window import Window
 
-#get all patients stored in the file
-with open('patientData.txt','r') as f:
-    data=f.read()
-data = data.splitlines()
-
-num_lines = sum(1 for line in open('patientData.txt'))
-
 #get data for patient
 dataMatrix1 = genfromtxt('DemoEEGFile.txt')
 x = dataMatrix1[:,0]
@@ -52,6 +45,13 @@ class SecondScreen(Screen):
     pass
 class ThirdScreen(Screen):
     def __init__(self, **kwargs):
+    	#get all patients stored in the file
+	with open('patientData.txt','r') as f:
+	    data=f.read()
+	data = data.splitlines()
+	num_lines = sum(1 for line in open('patientData.txt'))
+	
+	
         super(ThirdScreen, self).__init__(**kwargs)
 
 	# create scrolling for viewing patient data
