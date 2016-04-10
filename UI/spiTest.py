@@ -27,7 +27,7 @@ def spiTestRun():
 	# rounded to specified number of decimal places. 
 	def ConvertVolts(data,places):
 		volts = (data * 3.3)/(2**24-1)#float(1023)
-  		volts = round(volts,places)  
+  		#volts = round(volts,places)  
   		return volts
   
 	# Define sensor channels
@@ -52,7 +52,7 @@ def spiTestRun():
 	#check_call(["ino", "clean"],cwd=d)
 	#check_call(["ino", "build"],cwd=d)
 	check_call(["ino", "upload"],cwd=d)
-	time.sleep(8)
+	time.sleep(7)
 #	os.system("ino build -d ~/algorithm/UI/arduino")
 #	os.system("ino upload -d ~/algorithm/UI/arduino")
 
@@ -76,7 +76,7 @@ def spiTestRun():
 		windowNum += 1
 		#p1 = Process(target = processData)
 		
-		for i in xrange(samples_per_chan-1):
+		for i in xrange(samples_per_chan):
 			for c in chan:
 				temp = ser.readline()#.splitlines()[0]
 				#temp = ser.readline().strip('\r\n')	#remove new line
