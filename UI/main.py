@@ -23,38 +23,19 @@ from kivy.garden.graph import Graph, LinePlot
 from kivy.uix.widget import Widget
 import numpy as np
 import math
-
-#get all patients stored in the file
-with open('patientData.txt','r') as f:
-    data=f.read()
-data = data.splitlines()
-
-num_lines = sum(1 for line in open('patientData.txt'))
+from kivy.core.window import Window
 
 #get data for patient
-dataMatrix1 = genfromtxt('out2.txt',delimiter=',')
-y1 = dataMatrix1[:,0]
-y2 = dataMatrix1[:,1]
-y3 = dataMatrix1[:,2]
-y4 = dataMatrix1[:,3]
-y5 = dataMatrix1[:,4]
-y6 = dataMatrix1[:,5]
-y7 = dataMatrix1[:,6]
-y8 = dataMatrix1[:,7]
+dataMatrix1 = genfromtxt('DemoEEGFile.txt')
+x = dataMatrix1[:,0]
+x = x - 5.539
+y = dataMatrix1[:,1]
 
-xGlobalmax = math.ceil(len(y1)/256/60) # x is in minutes, number of samples/256 Hz / 60 seconds 
-print xGlobalmax
-print len(y1)
-print len(y1)/256
-quit()
-
-x = np.linspace(0,xGlobalmax,num=len(y1))
-
-xmin = 0#math.trunc(x[0])
-ymin = math.trunc(min(y1))#math.trunc(y[0])
-xmax = xmin+10
-#xGlobalmax = math.trunc(x[len(x)-1])
-ymax = math.trunc(max(y1))#math.trunc(y[len(y)-1])
+xmin = math.trunc(x[0])
+ymin = math.trunc(min(y))#math.trunc(y[0])
+xmax = xmin+1
+xGlobalmax = math.trunc(x[len(x)-1])
+ymax = math.trunc(max(y))#math.trunc(y[len(y)-1])
 
 class HomeScreen(Screen):
     pass
@@ -64,19 +45,31 @@ class SecondScreen(Screen):
     pass
 class ThirdScreen(Screen):
     def __init__(self, **kwargs):
+    	#get all patients stored in the file
+	with open('patientData.txt','r') as f:
+	    data=f.read()
+	data = data.splitlines()
+	num_lines = sum(1 for line in open('patientData.txt'))
+	
+	
         super(ThirdScreen, self).__init__(**kwargs)
 
 	# create scrolling for viewing patient data
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
-        for i in range(num_lines):
-            btn = Button(text=data[i],size_hint_y=None,height=40)
-            btn.bind(on_release=partial(self.saveName,data[i]))
+        #updated the for loop range
+        for i in range(sum(1 for line in open('patientData.txt'))):
+            btn = Button(text=data[i],size_hint_y=None,height=40)#,background_color=[1,0,0,1])
+            btn.bind(on_release=partial(self.saveName,data[i],btn))
             layout.add_widget(btn)
         root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
         root.add_widget(layout)
         self.add_widget(root)
-    def saveName(self,name, *args):
+    def saveName(self,name,btn, *args):
+        if btn.background_color == [0,1,0,1]:
+            btn.background_color = [1,1,1,1]
+        else:
+            btn.background_color = [0,1,0,1]
         f = open('choosePatient.txt','w')
         f.write(name + '\n')
         f.close()
@@ -96,7 +89,7 @@ class FourthScreen(Screen):
 	# create graph
         graph = Graph()
         plot = LinePlot(mode='line_strip',color=[1,0,0,1])
-        plot.points = [(x[i],y1[i]) for i in xrange(len(x))]
+        plot.points = [(x[i],y[i]) for i in xrange(len(x))]
         graph.add_plot(plot)
         graph.x_ticks_major=.5
         graph.xmin=xmin
@@ -113,9 +106,9 @@ class FourthScreen(Screen):
         graph.y_grid_label=True
 
         # create video player
-        video = VideoPlayer(source='video_demo.mp4')
+        video = VideoPlayer(source='Momona.mp4')
         video.play=False
-        video.size_hint=(0.5,1)
+        video.size_hint=(0.5,0.9)
         video.pos_hint={'right':1,'top':1}       
 
         graph.pos_hint={'x':0.05,'top':1}
@@ -123,8 +116,8 @@ class FourthScreen(Screen):
 	    global xmin
             global xmax
             global xGlobalmax
-            xmin=xmin+5
-            xmax=xmax+5
+            xmin=xmin+.5
+            xmax=xmax+.5
             graph.xmin=xmin
             graph.xmax=xmax
             
@@ -136,8 +129,8 @@ class FourthScreen(Screen):
             global xmin
             global xmax
             global xGlobalmax
-            xmin=xmin-5
-            xmax=xmax-5
+            xmin=xmin-.5
+            xmax=xmax-.5
             graph.xmin=xmin
             graph.xmax=xmax
 
@@ -151,7 +144,6 @@ class MyScreenManager(ScreenManager):
 
 load_screen = Builder.load_string('''
 #:import FadeTransition kivy.uix.screenmanager.FadeTransition
-
 MyScreenManager:
     transition: FadeTransition()
     HomeScreen:
@@ -181,15 +173,6 @@ MyScreenManager:
 <SecondScreen>:
     name: 'Second'
     BoxLayout:
-#	Camera:
-#	    id: camera
-#	    resolution: (640,480)
-#	    play: True
-#        ToggleButton:
-#            text: 'Play'
-#            on_press: camera.play = not camera.play
-#            size_hint_y: None
-#            height: '48dp'
 	#Label:
 	    #text: 'Neonatal EEG Monitoring System'
 	BoxLayout:
@@ -201,32 +184,27 @@ MyScreenManager:
 	    	text: 'Run EEG System'
 	    	size_hint: .1,.1
 #                on_release: sys.execfile('spiTest.py')
-#            ToggleButton:
-#                text: 'Play'
-#                height: '48p'
-#                on_press: camera.play = not camera.play
 <FirstScreen>:
     name: 'First'
     FloatLayout:
 	Label: 
 		text: 'Patient Name'
-		pos_hint: {'x':0.2,'y':0.3}
+		pos_hint: {'x':0.2,'y':0.6}
 		size_hint: .1,.1
-
 	TextInput:
 		id: name_input
 		multiline: False
 		size_hint: .3,.1
-		pos_hint: {'x':0.5,'y':0.3}
+		pos_hint: {'x':0.5,'y':0.6}
 	Label:
 		text: 'Date'
-		pos_hint: {'x':0.2,'y':0.7}
+		pos_hint: {'x':0.2,'y':0.8}
 		size_hint: .1,.1
 	TextInput:
 		id: date_input
 		multiline: False
 		size_hint: .3,.1
-		pos_hint: {'x':0.5,'y':0.7}
+		pos_hint: {'x':0.5,'y':0.8}
     FloatLayout:
         BoxLayout:
             Button:
@@ -241,21 +219,9 @@ MyScreenManager:
                 text: 'Next'
                 size_hint: .1, .1
                 on_press: app.save(name_input.text, date_input.text)
-               # on_release: execfile('./capture-file.sh') 
-                on_release: execfile("capture-file.py") #app.root.current = 'Second'
+                on_release: execfile("capture-file.py") 
                 on_release: app.root.current = 'Home'
 		#on_release: app.save(name_input.text, date_input.text)
-#    FloatLayout:
-#	BoxLayout:
-#	    Button:
-#		text: 'Home'
-#		size_hint: .1,.1
-#		on_release: app.root.current = 'Home'
- #  	    Button:
-#		text: 'Back'
-#		size_hint: .1,.1
-#		on_release: app.root.current = 'First'
-
 <ThirdScreen>:
     name: 'Third'
     FloatLayout:
@@ -275,17 +241,6 @@ MyScreenManager:
 <FourthScreen>:
     name: 'Fourth'
     FloatLayout:
-        #VideoPlayer:
-        #    id: video
-        #    source: 'video_demo.mp4'
-        #    size_hint: 1,0.5
-        #    pos: 0, self.height
-        #    play: False
-#        Image:
-#            source: 'testplot.png'
-#            size_hint: 1, 1
-#            allow_stretch: True
-#            keep_ratio: False
         BoxLayout:
             Button:
                 text: 'Home'
@@ -303,6 +258,10 @@ MyScreenManager:
 
 class ScreenManagerApp(App):
 
+    Window.allow_vkeyboard = True
+    Window.single_vkeybboard = True
+    Window.docked_vkeyboard = True
+
     def build(self):
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
         layout.bind(minimum_height=layout.setter('height'))
@@ -314,12 +273,14 @@ class ScreenManagerApp(App):
     
     def save(self, name, date):
 	f = open('patientData.txt','a')
-	f.write(name + ' ')
+	f.write(name + ',')
 	f.write(date + '\n')
 	f.close()
-    def saveName(self,name):
-        f = open('choosePatient.txt','w')
-        f.write(name)
-        f.close()
+#    def saveName(self,name,btn):
+#        btn.background_color = [0,1,0,1]
+#        f = open('choosePatient.txt','w')
+#        f.write(name)
+#        f.close()
+        #btn.background_color = [0,1,0,1]
 
 ScreenManagerApp().run()
