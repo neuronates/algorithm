@@ -16,7 +16,7 @@ namemp4 = name[-1] + ".mp4"
 with picamera.PiCamera() as camera:
 	
 	try:
-		time = 30
+		time = 45
 		print 'start'
 		#Initialize concurrent processes
 #		camera.wait_recording(time)
