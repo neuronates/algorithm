@@ -21,7 +21,7 @@ import serial
 from multiprocessing import Process
 from subprocess import check_call
 
-def spiTestRun():
+def spiTestRun(patientName):
 
 	# Function to convert data to voltage level,
 	# rounded to specified number of decimal places. 
@@ -37,8 +37,8 @@ def spiTestRun():
 	samples_per_chan = sampling_rate * window_length
 	precision = 3
 	# Define delay between readings
-	#delay = (1.0/sampling_rate)
-	delay = 0
+	delay = (1.0/sampling_rate)
+	#delay = 0
 
 	eegData = np.empty((samples_per_chan, len(chan)))
 	ser = serial.Serial('/dev/ttyUSB0', 115200, timeout = 0)
@@ -68,7 +68,7 @@ def spiTestRun():
 		finalFlags = np.logical_or(autoFlags, epiFlags)#combineFlags(autoFlags, epiFlags)
 		data = np.append(data, finalFlags, axis = 1)
 		print windowNum
-		np.savetxt('data/window_'+str(windowNum)+'.txt', data, delimiter=',')
+		np.savetxt('data/'+srt(name)+'_'+str(windowNum)+'.txt', data, delimiter=',')
 		#saveWindow(data)
 	
 	while True:
@@ -137,21 +137,21 @@ def spiTestRun():
 	
 
 	
-	def saveFile():
-		np.savetxt('data/out.txt', eegData, delimiter=',')
+	def saveFile(name):
+		np.savetxt('data/'+str(name)+'.txt', eegData, delimiter=',')
 		print "Stopped!\n"
 	
-	def saveWindow():
-		np.savetxt('data/window_'+str(windowNum)+'.txt', data, fmt = ['%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e'], delimiter=',')
+	def saveWindow(name):
+		np.savetxt('data/'+srt(name)+'_'+str(windowNum)+'.txt', data, fmt = ['%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e'], delimiter=',')
 
 	def combineFlags(autoFlags, epiFlags):
 		results = np.logical_or(autoFlags, epiFlags)
 
 	import atexit
-	atexit.register(saveFile)
+	atexit.register(saveFile, patientName)
 
 
 if __name__ == '__main__':
-	spiTestRun()
+	spiTestRun('main')
  
 
