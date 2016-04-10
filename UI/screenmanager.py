@@ -291,8 +291,8 @@ class ScreenManagerApp(App):
 	# create buttons
         btnRight = Button(text='Scroll', size_hint=(.05,1),pos_hint={'x':0.45})#,'y':0})
         btnLeft = Button(text='Scroll', size_hint=(.05,1),pos_hint={'left':1})			
-        self.add_widget(btnRight)
-        self.add_widget(btnLeft)
+        FourthScreen.add_widget(btnRight)
+        FourthScreen.add_widget(btnLeft)
         
 	# create graph
         graph = Graph()
@@ -345,8 +345,8 @@ class ScreenManagerApp(App):
             percent = 1-(xGlobalmax-xmin)/xGlobalmax
             video.seek(percent)
         btnLeft.bind(on_release=moveLeft)
-        self.add_widget(graph)
-        self.add_widget(video)
+        FourthScreen.add_widget(graph)
+        FourthScreen.add_widget(video)
 
 
 
