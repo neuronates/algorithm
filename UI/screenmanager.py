@@ -123,7 +123,7 @@ ScreenManager:
 	    Button:
     		text: 'Next'
     		size_hint: .1, .1
-    		on_press: app.playVide(app.root.get_screen('Fourth'))
+    		on_press: app.playVideo(app.root.get_screen('Fourth'))
     		on_release: app.root.current = 'Fourth'
 <HomeScreen>:
     name: 'Home'
