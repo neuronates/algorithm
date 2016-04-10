@@ -60,7 +60,7 @@ class ThirdScreen(Screen):
         #updated the for loop range
         for i in range(sum(1 for line in open('patientData.txt'))):
             btn = Button(text=data[i],size_hint_y=None,height=40)
-            btn.bind(on_release=partial(self.saveName,data[i],self.btn))
+            btn.bind(on_release=partial(self.saveName,data[i],btn))
             layout.add_widget(btn)
         root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
         root.add_widget(layout)
