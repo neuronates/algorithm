@@ -22,7 +22,7 @@ with picamera.PiCamera() as camera:
 #		camera.wait_recording(time)
 		p1 = Process(target = camera.wait_recording, args = (time,))
 		print 'before'
-		p2 = Process(target = spiTest.spiTestRun)#execfile("spiTest.py"))
+		p2 = Process(target = spiTest.spiTestRun, args = (name[-1],))#execfile("spiTest.py"))
 		print 'after'
 		camera.resolution = (800, 480)
 		camera.framerate = 30
