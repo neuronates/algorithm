@@ -42,35 +42,36 @@ class FirstScreen(Screen):
 class SecondScreen(Screen):
     pass
 class ThirdScreen(Screen):
-    def __init__(self, **kwargs):
-    	#get all patients stored in the file
-	with open('patientData.txt','r') as f:
-	    data=f.read()
-	data = data.splitlines()
-	num_lines = sum(1 for line in open('patientData.txt'))
+    pass
+#    def __init__(self, **kwargs):
+#    	#get all patients stored in the file
+#	with open('patientData.txt','r') as f:
+#	    data=f.read()
+#	data = data.splitlines()
+#	num_lines = sum(1 for line in open('patientData.txt'))
 	
 	
-        super(ThirdScreen, self).__init__(**kwargs)
-
-	# create scrolling for viewing patient data
-        layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
-        layout.bind(minimum_height=layout.setter('height'))
+ #       super(ThirdScreen, self).__init__(**kwargs)
+#
+#	# create scrolling for viewing patient data
+ #       layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
+  #      layout.bind(minimum_height=layout.setter('height'))
         #updated the for loop range
-        for i in range(sum(1 for line in open('patientData.txt'))):
-            btn = Button(text=data[i],size_hint_y=None,height=40)#,background_color=[1,0,0,1])
-            btn.bind(on_release=partial(self.saveName,data[i],btn))
-            layout.add_widget(btn)
-        root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
-        root.add_widget(layout)
-        self.add_widget(root)
-    def saveName(self,name,btn, *args):
-        if btn.background_color == [0,1,0,1]:
-            btn.background_color = [1,1,1,1]
-        else:
-            btn.background_color = [0,1,0,1]
-        f = open('choosePatient.txt','w')
-        f.write(name + '\n')
-        f.close()
+#        for i in range(sum(1 for line in open('patientData.txt'))):
+ #           btn = Button(text=data[i],size_hint_y=None,height=40)#,background_color=[1,0,0,1])
+#            btn.bind(on_release=partial(self.saveName,data[i],btn))
+#            layout.add_widget(btn)
+#        root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
+#        root.add_widget(layout)
+ #       self.add_widget(root)
+ #   def saveName(self,name,btn, *args):
+#        if btn.background_color == [0,1,0,1]:
+#            btn.background_color = [1,1,1,1]
+#        else:
+#            btn.background_color = [0,1,0,1]
+#        f = open('choosePatient.txt','w')
+#        f.write(name + '\n')
+#        f.close()
 
 
 class FourthScreen(Screen):
@@ -167,7 +168,7 @@ MyScreenManager:
             Button:
                 text: 'Review Data'
                 size_hint: .1, .1
-                on_press: app.makeGrid('Third')
+                on_press: app.makeGrid(ThirdScreen)
                 on_release: app.root.current = 'Third'
 <SecondScreen>:
     name: 'Second'
@@ -282,7 +283,7 @@ class ScreenManagerApp(App):
 #        f.close()
         #btn.background_color = [0,1,0,1]
         
-    def makeGrid(self,ThirdScreen)
+    def makeGrid(self,ThirdScreen):
 #    def __init__(self, **kwargs):
     	#get all patients stored in the file
 	with open('patientData.txt','r') as f:
@@ -290,7 +291,7 @@ class ScreenManagerApp(App):
 	data = data.splitlines()
 	num_lines = sum(1 for line in open('patientData.txt'))
 
-        super(ThirdScreen, self).__init__(**kwargs)
+#        super(ThirdScreen, self).__init__(**kwargs)
 
 	# create scrolling for viewing patient data
         layout = GridLayout(cols=1,spacing=10,size_hint_y=None)
@@ -302,7 +303,7 @@ class ScreenManagerApp(App):
             layout.add_widget(btn)
         root = ScrollView(size_hint=(None,None),size=(400,395),pos_hint={'right':0.7,'top':1})#'Center_x':.7, 'Center_y':.8})
         root.add_widget(layout)
-        self.add_widget(root)
+        ThirdScreen.add_widget(root)
     def saveName(self,name,btn, *args):
         if btn.background_color == [0,1,0,1]:
             btn.background_color = [1,1,1,1]
