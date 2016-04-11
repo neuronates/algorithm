@@ -26,12 +26,20 @@ from subprocess import check_call
 
 def spiTestRun(patientName = 'test'):
 	
+	def saveFile(name):
+		np.savetxt('data/'+str(name)+'.txt', eegData, delimiter=',')
+		print "Stopped!\n"
+	
 	# Function to convert data to voltage level,
 	# rounded to specified number of decimal places. 
 	def ConvertVolts(data,places):
 		volts = (data * 3.3)/(2**24-1)#float(1023)
 		#volts = round(volts,places)
 		return volts
+	
+	
+	def combineFlags(autoFlags, epiFlags):
+		results = np.logical_or(autoFlags, epiFlags)
 	
 	# Handles a terminate signal as a normal exit
 	# This way, file will be saved upon exit
@@ -143,17 +151,8 @@ def spiTestRun(patientName = 'test'):
 
 	 	time.sleep(delay)
 	
-
-	
-	def saveFile(name):
-		np.savetxt('data/'+str(name)+'.txt', eegData, delimiter=',')
-		print "Stopped!\n"
-	
 	def saveWindow():
 		np.savetxt('data/window_'+str(windowNum)+'.txt', data, fmt = ['%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e'], delimiter=',')
-
-	def combineFlags(autoFlags, epiFlags):
-		results = np.logical_or(autoFlags, epiFlags)
 
 	
 
