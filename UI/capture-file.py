@@ -59,4 +59,6 @@ with picamera.PiCamera() as camera:
 		camera.stop_recording()
 		p2.terminate()	
 convert_video = "MP4Box -fps 30 -add " + nameh264 + " " + namemp4 
+delete_video = "rm " + nameh264
 call([convert_video], shell = True)
+call([delete_video], shell = True)
