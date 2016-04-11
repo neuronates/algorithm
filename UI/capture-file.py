@@ -2,6 +2,7 @@ from multiprocessing import Process
 import spiTest
 import picamera
 from subprocess import call
+import time
 
 with open('patientData.txt','r') as f:
     data=f.read()
@@ -27,8 +28,21 @@ with picamera.PiCamera() as camera:
 		camera.resolution = (800, 480)
 		camera.framerate = 30
 		camera.start_preview()
+		
+		#=============================================
+		# Comment out the lines between the other set of ========
+		# Uncommen the lines below
+		# That should correct for the delay in video monitoring and eeg recording
+		#p2.start()
+		#time.sleep(6)
+		#camera.start_recording(nameh264)
+		#=============================================
+		
+		#============================================
 		camera.start_recording(nameh264)
 		p2.start()
+		#=============================================
+		
 		camera.wait_recording(time)
 		#Process(target = spiTest).start()
 		##Process(target = camera.wait_recording, args = (time,)).start()
