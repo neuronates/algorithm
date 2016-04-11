@@ -17,20 +17,27 @@ import time
 import os
 import numpy as np
 import atexit
+from signal import signal, SIGTERM
+from sys import exit
+import atexit
 import serial
 from multiprocessing import Process
 from subprocess import check_call
 
 def spiTestRun(patientName = 'test'):
 	
-	print patientName
 	# Function to convert data to voltage level,
 	# rounded to specified number of decimal places. 
 	def ConvertVolts(data,places):
 		volts = (data * 3.3)/(2**24-1)#float(1023)
 		#volts = round(volts,places)
 		return volts
-
+	
+	# Handles a terminate signal as a normal exit
+	# This way, file will be saved upon exit
+	atexit.register(saveFile, patientName)
+	signal(SIGTERM, lambda signum, stack_frame: exit(1))
+	
 	# Define sensor channels
 	chan = [0, 1, 2, 3, 4, 5, 6, 7]
 	sampling_rate = 256
@@ -148,9 +155,7 @@ def spiTestRun(patientName = 'test'):
 	def combineFlags(autoFlags, epiFlags):
 		results = np.logical_or(autoFlags, epiFlags)
 
-	import atexit
-	atexit.register(saveFile, patientName)
-
+	
 
 if __name__ == '__main__':
 	spiTestRun('main')
