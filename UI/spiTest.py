@@ -57,7 +57,7 @@ def spiTestRun(patientName = 'test'):
 #	os.system("ino uploadd ~/algorithm/UI/arduino")
 
 		
-	def processData(eeg):
+	def processData(eeg, name):
 		data = np.copy(eeg)
 		#print data.shape
 		res = autocorrelation.seizure(data)
@@ -130,7 +130,7 @@ def spiTestRun(patientName = 'test'):
 # 			print "--------------------------------------------"
 # 			print("Voltage : {}V".format(eegData[i]))
 		
-		p1 = Process(target = processData, args = (eegData,))
+		p1 = Process(target = processData, args = (eegData,patientName))
 		p1.start()
 
 	 	time.sleep(delay)
