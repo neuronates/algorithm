@@ -18,7 +18,7 @@ import os
 import numpy as np
 import atexit
 from signal import signal, SIGTERM
-from sys import exit
+import sys
 import atexit
 import serial
 from multiprocessing import Process
@@ -44,7 +44,7 @@ def spiTestRun(patientName = 'test'):
 	# Handles a terminate signal as a normal exit
 	# This way, file will be saved upon exit
 	atexit.register(saveFile, patientName)
-	signal(SIGTERM, lambda signum, stack_frame: exit(1))
+	signal(SIGTERM, lambda signum, stack_frame: sys.exit(1))
 	
 	# Define sensor channels
 	chan = [0, 1, 2, 3, 4, 5, 6, 7]
