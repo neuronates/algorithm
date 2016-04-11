@@ -267,15 +267,14 @@ class ScreenManagerApp(App):
         else:
             btn.background_color = [0,1,0,1]
         f = open('choosePatient.txt','w')
-        f.write('\n'+ name)
+        f.write(name)
         f.close()
         
     def playVideo(self,FourthScreen):
 	#get data for patient
 	with open('choosePatient.txt','r') as f:
-      	    data=f.read()
-      	data = data.split(',')
-      	patientName = data[0]
+      	    patientName=f.read()
+#      	data = data.split(',')
       	fileName = patientName + ".mp4"
 	
 	dataMatrix1 = genfromtxt('DemoEEGFile.txt')

@@ -68,7 +68,7 @@ def spiTestRun(patientName):
 		finalFlags = np.logical_or(autoFlags, epiFlags)#combineFlags(autoFlags, epiFlags)
 		data = np.append(data, finalFlags, axis = 1)
 		print windowNum
-		np.savetxt('data/'+srt(name)+'_'+str(windowNum)+'.txt', data, delimiter=',')
+		np.savetxt('data/'+str(name)+'_'+str(windowNum)+'.txt', data, delimiter=',')
 		#saveWindow(data)
 	
 	while True:
@@ -142,7 +142,7 @@ def spiTestRun(patientName):
 		print "Stopped!\n"
 	
 	def saveWindow(name):
-		np.savetxt('data/'+srt(name)+'_'+str(windowNum)+'.txt', data, fmt = ['%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e'], delimiter=',')
+		np.savetxt('data/'+str(name)+'_'+str(windowNum)+'.txt', data, fmt = ['%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e'], delimiter=',')
 
 	def combineFlags(autoFlags, epiFlags):
 		results = np.logical_or(autoFlags, epiFlags)
