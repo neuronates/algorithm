@@ -21,7 +21,7 @@
   from multiprocessing import Process
   from subprocess import check_call
   
-  def spiTestRun(patientName):
+  def spiTestRun(patientName = 'test'):
   
   	# Function to convert data to voltage level,
   	# rounded to specified number of decimal places. 
