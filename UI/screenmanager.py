@@ -275,7 +275,7 @@ class ScreenManagerApp(App):
 	with open('choosePatient.txt','r') as f:
       	    patientName=f.read()
 #      	data = data.split(',')
-      	fileName = patientName + ".mp4"
+      	fileName ='videos/' + patientName + ".mp4"
 	
 	dataMatrix1 = genfromtxt('DemoEEGFile.txt')
 	x = dataMatrix1[:,0]

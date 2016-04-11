@@ -10,8 +10,8 @@ name = data.split('\n')
 print name
 if(name[-1] == ''):
 	name[-1] = 'testName'
-nameh264 = name[-1] + ".h264"
-namemp4 = name[-1] + ".mp4"
+nameh264 = 'videos/' + name[-1] + ".h264"
+namemp4 = 'videos/' + name[-1] + ".mp4"
 
 
 with picamera.PiCamera() as camera:

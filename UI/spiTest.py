@@ -17,7 +17,7 @@ import time
 import os
 import numpy as np
 import atexit
-from signal import signal, SIGTERM
+import signal
 import sys
 import atexit
 import serial
@@ -26,7 +26,7 @@ from subprocess import check_call
 
 def spiTestRun(patientName = 'test'):
 	
-	def saveFile(name):
+	def saveFile(name, eegData):
 		np.savetxt('data/'+str(name)+'.txt', eegData, delimiter=',')
 		print "Stopped!\n"
 	
@@ -41,10 +41,6 @@ def spiTestRun(patientName = 'test'):
 	def combineFlags(autoFlags, epiFlags):
 		results = np.logical_or(autoFlags, epiFlags)
 	
-	# Handles a terminate signal as a normal exit
-	# This way, file will be saved upon exit
-	atexit.register(saveFile, patientName)
-	signal(SIGTERM, lambda signum, stack_frame: sys.exit(1))
 	
 	# Define sensor channels
 	chan = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -87,6 +83,13 @@ def spiTestRun(patientName = 'test'):
 		np.savetxt('data/window_'+str(windowNum)+'.txt', data, delimiter=',')
 		#saveWindow(data)
 	
+
+	# Handles a terminate signal as a normal exit
+	# This way, file will be saved upon exit
+	atexit.register(saveFile, patientName, eegData)
+	signal.signal(signal.SIGTERM, lambda signum, stack_, frame: sys.exit(1))
+
+
 	while True:
 		
 		windowNum += 1
