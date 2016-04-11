@@ -22,7 +22,8 @@ from multiprocessing import Process
 from subprocess import check_call
 
 def spiTestRun(patientName = 'test'):
-
+	
+	print patientName
 	# Function to convert data to voltage level,
 	# rounded to specified number of decimal places. 
 	def ConvertVolts(data,places):
@@ -57,7 +58,7 @@ def spiTestRun(patientName = 'test'):
 #	os.system("ino uploadd ~/algorithm/UI/arduino")
 
 		
-	def processData(eeg, name):
+	def processData(eeg):
 		data = np.copy(eeg)
 		#print data.shape
 		res = autocorrelation.seizure(data)
@@ -67,8 +68,8 @@ def spiTestRun(patientName = 'test'):
 		epiFlags[epiRes] = 1
 		finalFlags = np.logical_or(autoFlags, epiFlags)#combineFlags(autoFlags, epiFlags)
 		data = np.append(data, finalFlags, axis = 1)
-		print windowNum
-		np.savetxt('data/'+str(name)+'_'+str(windowNum)+'.txt', data, delimiter=',')
+		#print windowNum
+		np.savetxt('data/window_'+str(windowNum)+'.txt', data, delimiter=',')
 		#saveWindow(data)
 	
 	while True:
@@ -130,7 +131,7 @@ def spiTestRun(patientName = 'test'):
 # 			print "--------------------------------------------"
 # 			print("Voltage : {}V".format(eegData[i]))
 		
-		p1 = Process(target = processData, args = (eegData,patientName))
+		p1 = Process(target = processData, args = (eegData,))
 		p1.start()
 
 	 	time.sleep(delay)
@@ -141,8 +142,8 @@ def spiTestRun(patientName = 'test'):
 		np.savetxt('data/'+str(name)+'.txt', eegData, delimiter=',')
 		print "Stopped!\n"
 	
-	def saveWindow(name):
-		np.savetxt('data/'+str(name)+'_'+str(windowNum)+'.txt', data, fmt = ['%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e'], delimiter=',')
+	def saveWindow():
+		np.savetxt('data/window_'+str(windowNum)+'.txt', data, fmt = ['%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e','%.18e'], delimiter=',')
 
 	def combineFlags(autoFlags, epiFlags):
 		results = np.logical_or(autoFlags, epiFlags)
