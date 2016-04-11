@@ -53,6 +53,11 @@ with picamera.PiCamera() as camera:
 		camera.stop_recording()
 		p2.terminate()	
 		print 'recording stopped'
+		
+		# essentially, you need a bash script that
+		# concatenates all files that match window_*.txt
+		# cat ls -tr window_*.txt > [patientname].txt
+		# then delete all files that match window_*.txt (rm data/window_*.txt)
 	
 	except KeyboardInterrupt:
 		print 'Stopped by Keyboard'
