@@ -23,27 +23,27 @@ import numpy as np
 import math
 from kivy.core.window import Window
 
-       #get data for patient
-        with open('choosePatient.txt','r') as f:
-            patientName=f.read()
-        data = data.split(',')
-        fileName ='videos/' + patientName + ".mp4"
+#get data for patient
+with open('choosePatient.txt','r') as f:
+    patientName=f.read()
+data = data.split(',')
+fileName ='videos/' + patientName + ".mp4"
 
-        dataMatrix1 = genfromtxt('DemoEEGFile.txt')
-        x = dataMatrix1[:,0]
-        x = x - 5.539
-        y = dataMatrix1[:,1]
+dataMatrix1 = genfromtxt('DemoEEGFile.txt')
+x = dataMatrix1[:,0]
+x = x - 5.539
+y = dataMatrix1[:,1]
 
-        xmin = math.trunc(x[0])
-        ymin = math.trunc(min(y))#math.trunc(y[0])
-        xmax = xmin+1
-        xGlobalmax = math.trunc(x[len(x)-1])
-        ymax = math.trunc(max(y))#math.trunc(y[len(y)-1])
+xmin = math.trunc(x[0])
+ymin = math.trunc(min(y))#math.trunc(y[0])
+xmax = xmin+1
+xGlobalmax = math.trunc(x[len(x)-1])
+ymax = math.trunc(max(y))#math.trunc(y[len(y)-1])
 #       xmin = math.trunc(x[0])
 #       ymin = math.trunc(min(y))#math.trunc(y[0])
 #       xmax = xmin+1
 #       xGlobalmax = math.trunc(x[len(x)-1])
-        ymax = math.trunc(max(y))#math.trunc(y[len(y)-1])
+ymax = math.trunc(max(y))#math.trunc(y[len(y)-1])
 
 
 
