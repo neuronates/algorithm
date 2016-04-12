@@ -3,6 +3,7 @@ import spiTest
 import picamera
 from subprocess import call
 import time
+from subprocess import check_call
 
 with open('patientData.txt','r') as f:
     data=f.read()
@@ -20,7 +21,7 @@ with picamera.PiCamera() as camera:
 		time = 60
 		print 'start'
 		#Initialize concurrent processes
-#		camera.wait_recording(time)
+ #		camera.wait_recording(time)
 		p1 = Process(target = camera.wait_recording, args = (time,))
 		print 'before'
 		p2 = Process(target = spiTest.spiTestRun, args = (name[-1],))#execfile("spiTest.py"))
@@ -33,9 +34,9 @@ with picamera.PiCamera() as camera:
 		# Comment out the lines between the other set of ========
 		# Uncommen the lines below
 		# That should correct for the delay in video monitoring and eeg recording
-		#p2.start()
-		#time.sleep(6)
-		#camera.start_recording(nameh264)
+#		p2.start()
+#		time.sleep(6)
+#		camera.start_recording(nameh264)
 		#=============================================
 		
 		#============================================
@@ -63,6 +64,17 @@ with picamera.PiCamera() as camera:
 		print 'Stopped by Keyboard'
 		camera.stop_recording()
 		p2.terminate()	
+concat_files = "ls -tr | window_*.txt > " + name[-1] + ".txt"
+txtName = name[-1] + ".txt"
+d = "/home/pi/algorithm/UI/data"
+
+remove_files = "rm window_*.txt"
+
+call([concat_files], cwd=d, shell = True)
+#call()
+#check_call(["ls","-tr","|","cat","window_*.txt",">",txtName], cwd=d)
+#check_call(["rm","window_*.txt"], cwd=d)
+
 convert_video = "MP4Box -fps 30 -add " + nameh264 + " " + namemp4 
 delete_video = "rm " + nameh264
 call([convert_video], shell = True)
